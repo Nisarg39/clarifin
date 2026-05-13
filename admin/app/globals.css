@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+:root {
+  /* ── Font Mappings (linking next/font to our theme names) ── */
+  --font-display: var(--font-playfair);
+  --font-sans:    var(--font-inter);
+  --font-mono:    var(--font-dm-mono);
+}
+
+@theme inline {
+  /* ── Brand Colors ── */
+  --color-navy:              #030334;
+  --color-sky-blue:          #70AAE4;
+  --color-accent:            #F5F27A;
+  --color-positive:          #22C55E;
+  --color-positive-strong:   #16A34A;
+  --color-negative:          #EF4444;
+  --color-negative-strong:   #DC2626;
+  --color-neutral:           #8AAAB8;
+  --color-warning:           #F59E0B;
+
+  /* ── Background System ── */
+  --color-bg-screen:        #F4F8FE;
+  --color-bg-card:          #FFFFFF;
+  --color-bg-input:         #F4F8FE;
+
+  /* ── Border System ── */
+  --color-border-light:     #EBF4FF;
+  --color-border-default:   #C5DCEF;
+  --color-border-focus:     #70AAE4;
+
+  /* ── Text System ── */
+  --color-text-primary:     #030334;
+  --color-text-secondary:   #4A6A8A;
+  --color-text-tertiary:    #7A8BAA;
+  --color-text-on-dark:     #FFFFFF;
+  --color-text-on-yellow:   #030334;
+  --color-text-sky-label:   #70AAE4;
+
+  /* ── Return Color System ── */
+  --color-return-strong-pos: #16A34A;
+  --color-return-pos:        #22C55E;
+  --color-return-neutral:    #8AAAB8;
+  --color-return-neg:        #EF4444;
+  --color-return-strong-neg: #DC2626;
+
+  /* ── Fonts ── */
+  --font-display: var(--font-display);
+  --font-sans:    var(--font-sans);
+  --font-mono:    var(--font-mono);
+
+  /* ── Typography Scale ── */
+  --font-size-display-2xl: 72px;
+  --font-size-display-xl:  56px;
+  --font-size-display-lg:  44px;
+  --font-size-display-md:  32px;
+  --font-size-title-xl:    22px;
+  --font-size-title-lg:    18px;
+  --font-size-title-md:    15px;
+  --font-size-body-lg:     16px;
+  --font-size-body-md:     14px;
+  --font-size-body-sm:     12px;
+  --font-size-label-sm:    11px;
+
+  --font-weight-display: 900;
+  --font-weight-heading: 600;
+  --font-weight-body:    400;
+  --font-weight-medium:  500;
+  --font-weight-light:   300;
+  --font-weight-bold:    700;
+
+  --letter-spacing-display-2xl: -3px;
+  --letter-spacing-display-xl:  -2.5px;
+  --letter-spacing-display-lg:  -2px;
+  --letter-spacing-display-md:  -1px;
+  --letter-spacing-title-xl:    -0.3px;
+  --letter-spacing-label-cap:   1.5px;
+  --letter-spacing-button:      0.2px;
+  --letter-spacing-badge:       0.3px;
+  --letter-spacing-mono-xl:     -0.5px;
+
+  /* ── Spacing (base 4px) ── */
+  --spacing-1:  4px;
+  --spacing-2:  8px;
+  --spacing-3:  12px;
+  --spacing-4:  16px;
+  --spacing-5:  20px;
+  --spacing-6:  24px;
+  --spacing-8:  32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+
+  /* ── Border Radius ── */
+  --radius-xs:   6px;
+  --radius-sm:   10px;
+  --radius-md:   14px;
+  --radius-lg:   20px;
+  --radius-xl:   26px;
+  --radius-2xl:  32px;
+  --radius-full: 9999px;
+}
+
+/* ── Base ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  color-scheme: light;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+body {
+  background: linear-gradient(160deg, #EBF4FF 0%, #F0F7FF 50%, #E8F2FF 100%);
+  background-attachment: fixed;
+  color: #030334;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), serif;
+}

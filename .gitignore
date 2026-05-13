@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Expo / React Native
+.expo/
+dist/
+web-build/
+ios/pods/
+android/app/build/
+android/.gradle/
+*.jks
+*.p12
+*.key
+*.mobileprovision
+
+# Admin / Web builds
+build/
+.next/
+out/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Other
+.claude/
+.gemini/
+temp/
+tmp/
