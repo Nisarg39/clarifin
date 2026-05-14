@@ -85,30 +85,39 @@ const getInstrumentDetail = async (req, res) => {
 
 const getDashboardSummary = async (_req, res) => {
   try {
-    const stats = await Instrument.aggregate([
-      {
-        $facet: {
-          asset_class: [
-            { $group: { _id: "$asset_class", count: { $sum: 1 } } },
-            { $sort: { count: -1 } }
-          ],
-          risk_level: [
-            { $group: { _id: "$risk_level", count: { $sum: 1 } } },
-            { $sort: { count: -1 } }
-          ],
-          return_nature: [
-            { $group: { _id: "$return_nature", count: { $sum: 1 } } },
-            { $sort: { count: -1 } }
-          ],
-          recommended_horizon: [
-            { $group: { _id: "$recommended_horizon", count: { $sum: 1 } } },
-            { $sort: { count: -1 } }
-          ]
+    const [stats, lastInstrument] = await Promise.all([
+      Instrument.aggregate([
+        {
+          $facet: {
+            asset_class: [
+              { $group: { _id: "$asset_class", count: { $sum: 1 } } },
+              { $sort: { count: -1 } }
+            ],
+            risk_level: [
+              { $group: { _id: "$risk_level", count: { $sum: 1 } } },
+              { $sort: { count: -1 } }
+            ],
+            return_nature: [
+              { $group: { _id: "$return_nature", count: { $sum: 1 } } },
+              { $sort: { count: -1 } }
+            ],
+            recommended_horizon: [
+              { $group: { _id: "$recommended_horizon", count: { $sum: 1 } } },
+              { $sort: { count: -1 } }
+            ]
+          }
         }
-      }
+      ]),
+      Instrument.findOne({}, { createdAt: 1, _id: 0 }).sort({ createdAt: -1 }).lean()
     ]);
 
-    res.json({ success: true, data: stats[0] });
+    res.json({
+      success: true,
+      data: {
+        ...stats[0],
+        lastInstrumentCreatedAt: lastInstrument?.createdAt ?? null,
+      }
+    });
   } catch (err) {
     res.status(500).json({ success: false, message: "Server error", error: err.message });
   }

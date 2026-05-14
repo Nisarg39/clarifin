@@ -1,15 +1,25 @@
-import { useEffect, useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, useWindowDimensions } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, useWindowDimensions, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { Layers, ShieldAlert, Clock, TrendingUp, ChevronRight } from "lucide-react-native";
+import { Layers, ShieldAlert, Clock, TrendingUp } from "lucide-react-native";
 import { colors, fonts, shadows, radius } from "@/constants/theme";
 import { fetchDashboardSummary } from "@/lib/api";
 import { DashboardSummaryResponse, DashboardStat } from "@/lib/types";
 
 function formatLabel(str: string): string {
   return str.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function formatDate(iso: string | null | undefined): string {
+  if (!iso) return "—";
+  const date = new Date(iso);
+  const diffDays = Math.floor((Date.now() - date.getTime()) / 86400000);
+  if (diffDays === 0) return "Today";
+  if (diffDays === 1) return "Yesterday";
+  if (diffDays < 7) return `${diffDays} days ago`;
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 export default function HomeScreen() {
@@ -25,7 +35,7 @@ export default function HomeScreen() {
       .finally(() => setLoading(false));
   }, []);
 
-  const totalInstruments = data ? Object.values(data).reduce((acc, cat) => acc + cat.reduce((c, item) => c + item.count, 0), 0) / 4 : 0;
+  const totalInstruments = data ? data.asset_class.reduce((acc, i) => acc + i.count, 0) : 0;
 
   function handleCardPress(key: string, value: string) {
     router.push({
@@ -55,46 +65,26 @@ export default function HomeScreen() {
       >
         {/* Header Section */}
         <View style={{ marginBottom: 28 }}>
-          <Text style={{ fontFamily: fonts.display, fontSize: 32, color: colors.textPrimary, marginBottom: 4, letterSpacing: -1 }}>
-            Welcome back!
+          <Text style={{ fontFamily: fonts.displayBold, fontSize: 32, color: colors.textPrimary, marginBottom: 4, letterSpacing: -1 }}>
+            Welcome back 👋
           </Text>
           <Text style={{ fontFamily: fonts.interRegular, fontSize: 16, color: colors.textSecondary }}>
             Your financial universe, summarized.
           </Text>
         </View>
 
-        {/* Hero Banner (Brand Gradient) */}
-        <TouchableOpacity 
-          activeOpacity={0.9}
-          onPress={() => router.push("/explore")}
-          style={{
-            borderRadius: radius["2xl"],
-            marginBottom: 28,
-            ...shadows.level3,
-            overflow: "hidden"
-          }}
-        >
-          <LinearGradient
-            colors={[colors.navy, "#437BB8"]} // Navy to a mid-point Sky Blue shade
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={{ padding: 28 }}
-          >
-            <View style={{ zIndex: 1 }}>
-              <Text style={{ fontFamily: fonts.soraBold, fontSize: 13, color: colors.skyBlue, textTransform: "uppercase", letterSpacing: 2, marginBottom: 12 }}>
-                Market Insight
-              </Text>
-              <Text style={{ fontFamily: fonts.soraBold, fontSize: 56, color: "#FFFFFF", marginBottom: 8, letterSpacing: -3 }}>
-                {Math.floor(totalInstruments)}
-              </Text>
-              <Text style={{ fontFamily: fonts.interRegular, fontSize: 17, color: "rgba(255,255,255,0.7)", lineHeight: 24, maxWidth: "85%" }}>
-                Live instruments analyzed and ready for your portfolio.
-              </Text>
-            </View>
-            {/* Decorative background elements */}
-            <View style={{ position: "absolute", right: -30, top: -30, width: 180, height: 180, borderRadius: 90, backgroundColor: "rgba(255,255,255,0.05)" }} />
-          </LinearGradient>
-        </TouchableOpacity>
+        {/* Market Insight — 3-stat ticker */}
+        {data && (
+          <MarketInsightTicker
+            totalInstruments={totalInstruments}
+            lastCreatedAt={data.lastInstrumentCreatedAt}
+            marketLinkedPct={totalInstruments > 0
+              ? Math.round(((data.return_nature.find(r => r._id === "market_linked")?.count ?? 0) / totalInstruments) * 100)
+              : null}
+            isDesktop={isDesktop}
+            onPress={() => router.push("/explore")}
+          />
+        )}
 
         {/* Categories Grid */}
         <View style={{ 
@@ -110,7 +100,7 @@ export default function HomeScreen() {
             filterKey="asset_class"
             onPress={handleCardPress}
             theme={{
-              bg: colors.skyBlue,
+              gradient: ["#70AAE4", "#4A8ED4"] as const,
               text: colors.navy,
               sub: "rgba(3,3,52,0.6)",
               pillBg: "rgba(255,255,255,0.4)",
@@ -128,7 +118,7 @@ export default function HomeScreen() {
             filterKey="risk_level"
             onPress={handleCardPress}
             theme={{
-              bg: "#D6D9FF", // Soft Lavender / Indigo
+              gradient: ["#D6D9FF", "#B5BAFF"] as const,
               text: colors.navy,
               sub: "rgba(3,3,52,0.6)",
               pillBg: "rgba(255,255,255,0.4)",
@@ -146,7 +136,7 @@ export default function HomeScreen() {
             filterKey="return_nature"
             onPress={handleCardPress}
             theme={{
-              bg: colors.accent, // Yellow
+              gradient: ["#F5F27A", "#EDE84A"] as const,
               text: colors.navy,
               sub: "rgba(3,3,52,0.5)",
               pillBg: "rgba(255,255,255,0.5)",
@@ -164,7 +154,7 @@ export default function HomeScreen() {
             filterKey="recommended_horizon"
             onPress={handleCardPress}
             theme={{
-              bg: "#D1FAE5", // Fresh Mint
+              gradient: ["#D1FAE5", "#A7F3D0"] as const,
               text: colors.navy,
               sub: "rgba(3,3,52,0.6)",
               pillBg: "rgba(255,255,255,0.4)",
@@ -179,6 +169,100 @@ export default function HomeScreen() {
   );
 }
 
+interface MarketInsightTickerProps {
+  totalInstruments: number;
+  lastCreatedAt: string | null | undefined;
+  marketLinkedPct: number | null;
+  isDesktop: boolean;
+  onPress: () => void;
+}
+
+function MarketInsightTicker({ totalInstruments, lastCreatedAt, marketLinkedPct, isDesktop, onPress }: MarketInsightTickerProps) {
+  const translateX = useRef(new Animated.Value(0)).current;
+  const animRef = useRef<Animated.CompositeAnimation | null>(null);
+
+  function startMarquee(totalWidth: number) {
+    if (isDesktop || totalWidth === 0) return;
+    const singleWidth = totalWidth / 2;
+    const durationMs = (singleWidth / 38) * 1000;
+    translateX.setValue(0);
+    animRef.current = Animated.loop(
+      Animated.sequence([
+        Animated.timing(translateX, { toValue: -singleWidth, duration: durationMs, useNativeDriver: true }),
+        Animated.timing(translateX, { toValue: 0, duration: 0, useNativeDriver: true }),
+      ])
+    );
+    animRef.current.start();
+  }
+
+  useEffect(() => {
+    return () => { animRef.current?.stop(); };
+  }, [isDesktop]);
+
+  const DIVIDER = (
+    <View style={{ width: 1, height: 44, backgroundColor: colors.borderDefault, marginHorizontal: 24, alignSelf: "center" }} />
+  );
+
+  function StatGroup() {
+    return (
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+          <Text style={{ fontFamily: fonts.soraBold, fontSize: 76, color: colors.textPrimary, letterSpacing: -5, lineHeight: 76 }}>
+            {Math.floor(totalInstruments)}
+          </Text>
+          <View style={{ gap: 3 }}>
+            <Text style={{ fontFamily: fonts.interSemi, fontSize: 15, color: colors.textPrimary }}>instruments live</Text>
+            <Text style={{ fontFamily: fonts.interRegular, fontSize: 13, color: colors.textMuted }}>Analyzed and ready for your portfolio</Text>
+          </View>
+        </View>
+
+        {DIVIDER}
+
+        <View style={{ gap: 3, justifyContent: "center" }}>
+          <Text style={{ fontFamily: fonts.interSemi, fontSize: 15, color: colors.textPrimary }}>Last added</Text>
+          <Text style={{ fontFamily: fonts.interRegular, fontSize: 13, color: colors.textMuted }}>{formatDate(lastCreatedAt)}</Text>
+        </View>
+
+        {DIVIDER}
+
+        <View style={{ gap: 3, justifyContent: "center", paddingRight: 48 }}>
+          <Text style={{ fontFamily: fonts.interSemi, fontSize: 15, color: colors.textPrimary }}>
+            {marketLinkedPct !== null ? `${marketLinkedPct}% market-linked` : "—"}
+          </Text>
+          <Text style={{ fontFamily: fonts.interRegular, fontSize: 13, color: colors.textMuted }}>
+            of all instruments
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
+  return (
+    <TouchableOpacity activeOpacity={0.7} onPress={onPress} style={{ marginBottom: 32 }}>
+      <Text style={{ fontFamily: fonts.soraBold, fontSize: 10, color: colors.primary, textTransform: "uppercase", letterSpacing: 3, marginBottom: 10 }}>
+        Market Insight
+      </Text>
+      <LinearGradient colors={[colors.textPrimary, "transparent", "transparent"]} locations={[0, 0.5, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ height: 2 }} />
+      <View style={{ paddingVertical: 14, overflow: "hidden" }}>
+        {isDesktop ? (
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <StatGroup />
+          </View>
+        ) : (
+          <Animated.View
+            style={{ flexDirection: "row", transform: [{ translateX }] }}
+            onLayout={(e) => startMarquee(e.nativeEvent.layout.width)}
+          >
+            <StatGroup />
+            <StatGroup />
+          </Animated.View>
+        )}
+      </View>
+      <LinearGradient colors={[colors.borderDefault, "transparent", "transparent"]} locations={[0, 0.5, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ height: 1 }} />
+    </TouchableOpacity>
+  );
+}
+
 interface CardProps {
   title: string;
   subtitle: string;
@@ -187,7 +271,7 @@ interface CardProps {
   filterKey: string;
   onPress: (key: string, value: string) => void;
   theme: {
-    bg: string;
+    gradient: readonly [string, string, ...string[]];
     text: string;
     sub: string;
     pillBg: string;
@@ -201,13 +285,13 @@ function FilterCategoryCard({ title, subtitle, icon: Icon, data, filterKey, onPr
   if (!data || data.length === 0) return null;
 
   return (
-    <View style={{
-      backgroundColor: theme.bg,
-      borderRadius: radius.xl,
-      padding: 24,
-      ...shadows.level2,
-      ...style,
-    }}>
+    <View style={{ borderRadius: radius.xl, overflow: "hidden", ...shadows.level2, ...style }}>
+    <LinearGradient
+      colors={theme.gradient}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={{ padding: 24 }}
+    >
       {/* Card Header */}
       <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 20 }}>
         <View style={{ flex: 1 }}>
@@ -231,39 +315,42 @@ function FilterCategoryCard({ title, subtitle, icon: Icon, data, filterKey, onPr
         </View>
       </View>
 
-      {/* Options List inside card */}
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+      {/* Options — tag chip layout */}
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
         {data.map((item) => (
           <TouchableOpacity
             key={item._id}
             activeOpacity={0.7}
             onPress={() => onPress(filterKey, item._id)}
             style={{
-              backgroundColor: theme.pillBg,
-              borderWidth: 1,
-              borderColor: theme.pillBorder,
-              borderRadius: radius.md,
-              paddingHorizontal: 12,
-              paddingVertical: 10,
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "space-between",
-              minWidth: "47%",
-              flexGrow: 1,
+              gap: 6,
+              backgroundColor: "rgba(0,0,0,0.1)",
+              borderRadius: radius.full,
+              paddingHorizontal: 13,
+              paddingVertical: 8,
             }}
           >
-            <View>
-              <Text style={{ fontFamily: fonts.interSemi, fontSize: 14, color: theme.text, marginBottom: 2 }}>
-                {formatLabel(item._id)}
-              </Text>
-              <Text style={{ fontFamily: fonts.interRegular, fontSize: 11, color: theme.sub }}>
-                {item.count} items
+            <Text style={{ fontFamily: fonts.interSemi, fontSize: 13, color: theme.text }}>
+              {formatLabel(item._id)}
+            </Text>
+            <View style={{
+              backgroundColor: "rgba(0,0,0,0.12)",
+              borderRadius: 20,
+              paddingHorizontal: 6,
+              paddingVertical: 1,
+              minWidth: 20,
+              alignItems: "center",
+            }}>
+              <Text style={{ fontFamily: fonts.interSemi, fontSize: 10, color: theme.text, opacity: 0.75 }}>
+                {item.count}
               </Text>
             </View>
-            <ChevronRight size={14} color={theme.text} opacity={0.5} />
           </TouchableOpacity>
         ))}
       </View>
+    </LinearGradient>
     </View>
   );
 }

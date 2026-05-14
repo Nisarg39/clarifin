@@ -6,10 +6,10 @@ import { colors, fonts, shadows, radius } from "@/constants/theme";
 export default function ChatScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.bgScreen }} edges={["top"]}>
-      <View style={{ flex: 1, padding: 20 }}>
+      <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 20 }}>
         <View style={{ marginBottom: 16, marginTop: 0 }}>
-          <Text style={{ fontFamily: fonts.display, fontSize: 32, color: colors.textPrimary, marginBottom: 4, letterSpacing: -1 }}>
-            AI Assistant
+          <Text style={{ fontFamily: fonts.displayBold, fontSize: 32, color: colors.textPrimary, marginBottom: 4, letterSpacing: -1 }}>
+            AI Assistant ✨
           </Text>
           <Text style={{ fontFamily: fonts.interRegular, fontSize: 16, color: colors.textSecondary }}>
             Ask anything about financial instruments

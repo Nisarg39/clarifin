@@ -29,7 +29,7 @@ export default function ExploreScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const { width } = useWindowDimensions();
-  const numColumns = width > 768 ? 2 : 1;
+  const numColumns = width >= 1100 ? 3 : width >= 640 ? 2 : 1;
 
   const [filters, setFilters] = useState<ExploreFilters>(() => ({
     ...DEFAULT_FILTERS,
@@ -105,11 +105,11 @@ export default function ExploreScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.bgApp }} edges={["top"]}>
-      <View style={{ flex: 1, padding: 20 }}>
+      <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 20 }}>
         {/* Header */}
         <View style={{ marginBottom: 16, marginTop: 0 }}>
-          <Text style={{ fontFamily: fonts.display, fontSize: 32, color: colors.textPrimary, marginBottom: 4, letterSpacing: -1 }}>
-            Explore
+          <Text style={{ fontFamily: fonts.displayBold, fontSize: 32, color: colors.textPrimary, marginBottom: 4, letterSpacing: -1 }}>
+            Explore 🧭
           </Text>
           <Text style={{ fontFamily: fonts.interRegular, fontSize: 16, color: colors.textSecondary }}>
             Browse all financial instruments
@@ -162,36 +162,36 @@ export default function ExploreScreen() {
           </View>
         ) : (
           <FlatList
-            key={numColumns}
-            data={instruments}
-            numColumns={numColumns}
-            columnWrapperStyle={numColumns > 1 ? { gap: 16 } : undefined}
-            keyExtractor={(item) => item.instrument_id}
-            renderItem={({ item }) => (
-              <View style={{ flex: numColumns > 1 ? 1 : undefined }}>
-                <InstrumentCard
-                  item={item}
-                  onPress={() => router.push(`/instrument/${item.instrument_id}`)}
-                />
-              </View>
-            )}
-            onEndReached={handleEndReached}
-            onEndReachedThreshold={0.3}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 24, paddingTop: 4 }}
-            ListFooterComponent={
-              loadingMore ? (
-                <ActivityIndicator size="small" color={colors.primary} style={{ marginVertical: 12 }} />
-              ) : null
-            }
-            ListEmptyComponent={
-              <View style={{ paddingTop: 60, alignItems: "center" }}>
-                <Text style={{ fontFamily: fonts.interRegular, fontSize: 14, color: colors.textMuted }}>
-                  No instruments found
-                </Text>
-              </View>
-            }
-          />
+              key={numColumns}
+              data={instruments}
+              numColumns={numColumns}
+              columnWrapperStyle={numColumns > 1 ? { gap: 16 } : undefined}
+              keyExtractor={(item) => item.instrument_id}
+              renderItem={({ item }) => (
+                <View style={{ flex: numColumns > 1 ? 1 : undefined }}>
+                  <InstrumentCard
+                    item={item}
+                    onPress={() => router.push(`/instrument/${item.instrument_id}`)}
+                  />
+                </View>
+              )}
+              onEndReached={handleEndReached}
+              onEndReachedThreshold={0.3}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 24, paddingTop: 4 }}
+              ListFooterComponent={
+                loadingMore ? (
+                  <ActivityIndicator size="small" color={colors.primary} style={{ marginVertical: 12 }} />
+                ) : null
+              }
+              ListEmptyComponent={
+                <View style={{ paddingTop: 60, alignItems: "center" }}>
+                  <Text style={{ fontFamily: fonts.interRegular, fontSize: 14, color: colors.textMuted }}>
+                    No instruments found
+                  </Text>
+                </View>
+              }
+            />
         )}
       </View>
     </SafeAreaView>

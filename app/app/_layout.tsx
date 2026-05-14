@@ -4,6 +4,8 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import {
+  PlayfairDisplay_600SemiBold,
+  PlayfairDisplay_700Bold,
   PlayfairDisplay_900Black,
   useFonts as usePlayfairFonts,
 } from "@expo-google-fonts/playfair-display";
@@ -29,7 +31,11 @@ import {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [playfairLoaded] = usePlayfairFonts({ PlayfairDisplay_900Black });
+  const [playfairLoaded] = usePlayfairFonts({ 
+    PlayfairDisplay_600SemiBold,
+    PlayfairDisplay_700Bold,
+    PlayfairDisplay_900Black 
+  });
   const [interLoaded] = useInterFonts({
     Inter_300Light,
     Inter_400Regular,

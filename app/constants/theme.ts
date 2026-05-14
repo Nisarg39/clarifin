@@ -86,6 +86,8 @@ export const shadows = {
 
 export const fonts = {
   display: "PlayfairDisplay_900Black",
+  displayBold: "PlayfairDisplay_700Bold",
+  displaySemi: "PlayfairDisplay_600SemiBold",
   interLight: "Inter_300Light",
   interRegular: "Inter_400Regular",
   interMedium: "Inter_500Medium",
@@ -143,10 +145,10 @@ export const RISK_STYLES: Record<
   string,
   { bg: string; text: string; border: string; label: string }
 > = {
-  low: { bg: "#DCFCE7", text: "#166534", border: "#BBF7D0", label: "Low" },
-  low_to_moderate: { bg: "#D1FAE5", text: "#065F46", border: "#A7F3D0", label: "Low–Moderate" },
-  moderate: { bg: "#FEF9C3", text: "#854D0E", border: "#FEF08A", label: "Moderate" },
-  moderately_high: { bg: "#FFEDD5", text: "#9A3412", border: "#FED7AA", label: "Mod. High" },
-  high: { bg: "#FEE2E2", text: "#991B1B", border: "#FECACA", label: "High" },
-  very_high: { bg: "#FFE4E6", text: "#9F1239", border: "#FECDD3", label: "Very High" },
+  low: { bg: "#BBF7D0", text: "#14532D", border: "#86EFAC", label: "Low" },
+  low_to_moderate: { bg: "#A7F3D0", text: "#064E3B", border: "#6EE7B7", label: "Low–Moderate" },
+  moderate: { bg: "#FEF08A", text: "#713F12", border: "#FDE047", label: "Moderate" },
+  moderately_high: { bg: "#FED7AA", text: "#7C2D12", border: "#FDBA8C", label: "Mod. High" },
+  high: { bg: "#FECACA", text: "#7F1D1D", border: "#FCA5A5", label: "High" },
+  very_high: { bg: "#FECDD3", text: "#881337", border: "#FDA4AF", label: "Very High" },
 };

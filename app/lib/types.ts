@@ -109,5 +109,6 @@ export interface DashboardSummaryResponse {
     risk_level: DashboardStat[];
     return_nature: DashboardStat[];
     recommended_horizon: DashboardStat[];
+    lastInstrumentCreatedAt?: string | null;
   };
 }

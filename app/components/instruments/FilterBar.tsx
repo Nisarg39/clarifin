@@ -153,12 +153,12 @@ export default function FilterBar({ filters, onChange }: Props) {
                 paddingVertical: 7,
                 borderRadius: radius.full,
                 borderWidth: 1.5,
-                backgroundColor: active ? group.activeBg : group.inactiveBg,
-                borderColor: active ? group.activeBg : "rgba(3,3,52,0.05)",
-                ...shadows.level1,
+                backgroundColor: active ? group.activeBg : colors.bgCard,
+                borderColor: active ? group.activeBg : group.accentColor,
+                opacity: active ? 1 : 0.8,
               }}
             >
-              <Icon size={13} color={active ? colors.navy : colors.textSecondary} strokeWidth={2} />
+              <Icon size={13} color={active ? colors.navy : group.accentColor} strokeWidth={2.2} />
               <Text
                 style={{
                   fontFamily: fonts.interSemi,
@@ -170,7 +170,7 @@ export default function FilterBar({ filters, onChange }: Props) {
               </Text>
               <ChevronDown
                 size={12}
-                color={active ? colors.navy : colors.textMuted}
+                color={active ? colors.navy : group.accentColor}
               />
             </TouchableOpacity>
           );

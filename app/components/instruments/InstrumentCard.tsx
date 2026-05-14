@@ -91,18 +91,18 @@ export default function InstrumentCard({ item, onPress }: Props) {
         </Text>
 
         <View style={{ flexDirection: "row", gap: 6, flexWrap: "wrap" }}>
-          <View style={{ backgroundColor: "rgba(112,170,228,0.1)", paddingHorizontal: 8, paddingVertical: 2, borderRadius: radius.sm }}>
-            <Text style={{ fontFamily: fonts.interRegular, fontSize: 11, color: colors.skyBlue }}>
+          <View style={{ backgroundColor: "#DBEAFE", paddingHorizontal: 8, paddingVertical: 2, borderRadius: radius.sm, borderWidth: 1, borderColor: "#BFDBFE" }}>
+            <Text style={{ fontFamily: fonts.interMedium, fontSize: 11, color: "#1E40AF" }}>
               {formatType(item.instrument_type)}
             </Text>
           </View>
-          <View style={{ backgroundColor: "rgba(138,170,184,0.1)", paddingHorizontal: 8, paddingVertical: 2, borderRadius: radius.sm }}>
-            <Text style={{ fontFamily: fonts.interRegular, fontSize: 11, color: colors.neutral }}>
+          <View style={{ backgroundColor: "#F1F5F9", paddingHorizontal: 8, paddingVertical: 2, borderRadius: radius.sm, borderWidth: 1, borderColor: "#E2E8F0" }}>
+            <Text style={{ fontFamily: fonts.interMedium, fontSize: 11, color: "#334155" }}>
               {formatType(item.asset_class)}
             </Text>
           </View>
           {item.suitable_for_80c && (
-            <View style={{ backgroundColor: "rgba(245,242,122,0.3)", paddingHorizontal: 8, paddingVertical: 2, borderRadius: radius.sm }}>
+            <View style={{ backgroundColor: "#FEF9C3", paddingHorizontal: 8, paddingVertical: 2, borderRadius: radius.sm, borderWidth: 1, borderColor: "#FDE047" }}>
               <Text style={{ fontFamily: fonts.interMedium, fontSize: 11, color: "#854D0E" }}>
                 80C
               </Text>
