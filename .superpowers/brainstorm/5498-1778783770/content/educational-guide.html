@@ -1,0 +1,329 @@
+<h2>Educational Discovery Guide — Layout Options</h2>
+<p class="subtitle">Filters become a learning path. SEBI-safe copy throughout. Pick a structure.</p>
+
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; }
+  .cards { gap: 24px; flex-wrap: wrap; justify-content: center; }
+  .card { width: 360px; cursor: pointer; }
+  .card-image { padding: 12px 12px 0; display: flex; justify-content: center; }
+  .card-body { padding: 14px 4px 4px; }
+  .card-body h3 { margin: 0 0 4px; font-size: 15px; }
+  .card-body p { margin: 0; font-size: 12px; color: #666; line-height: 1.4; }
+
+  .phone {
+    width: 340px;
+    background: #F4F8FE;
+    border-radius: 36px;
+    overflow: hidden;
+    border: 2px solid #d0d0d5;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  }
+  .phone-inner { padding: 22px 18px 28px; }
+
+  /* ════════════════════════════════════
+     OPTION A — Numbered Step Journey
+     Each filter = one step in a learning path
+  ════════════════════════════════════ */
+  .step-section { display: flex; gap: 12px; margin-bottom: 20px; }
+  .step-left { display: flex; flex-direction: column; align-items: center; }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #030334; color: #fff;
+    font-size: 12px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-line { width: 2px; flex: 1; background: #dce8f5; margin: 4px 0; min-height: 30px; }
+  .step-right { flex: 1; padding-top: 4px; }
+  .step-title { font-size: 14px; font-weight: 800; color: #030334; margin-bottom: 3px; }
+  .step-desc { font-size: 11px; color: #7A8BAA; line-height: 1.45; margin-bottom: 10px; }
+  .step-items { display: flex; flex-direction: column; gap: 0; }
+  .step-item {
+    font-size: 13px; font-weight: 600; color: #030334;
+    padding: 8px 0;
+    border-bottom: 1px solid #e8eef5;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .step-item:last-child { border-bottom: none; }
+  .step-arrow { font-size: 11px; color: #bbb; }
+
+  /* ════════════════════════════════════
+     OPTION B — "Why this matters" Blocks
+     Each filter has a headline question + explanation + items
+  ════════════════════════════════════ */
+  .why-block { margin-bottom: 0; border-bottom: 1px solid #dce8f5; padding-bottom: 16px; margin-top: 16px; }
+  .why-block:last-child { border-bottom: none; }
+  .why-block:first-child { margin-top: 0; }
+  .why-eyebrow {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 5px;
+  }
+  .why-accent { width: 3px; height: 18px; border-radius: 2px; }
+  .why-label { font-size: 9px; font-weight: 800; color: #aaa; text-transform: uppercase; letter-spacing: 1.4px; }
+  .why-question { font-size: 15px; font-weight: 800; color: #030334; margin-bottom: 5px; line-height: 1.2; }
+  .why-desc { font-size: 11px; color: #7A8BAA; line-height: 1.5; margin-bottom: 10px; }
+  .why-items { display: flex; flex-direction: column; }
+  .why-item {
+    font-size: 12px; font-weight: 600; color: #1a2a4a;
+    padding: 7px 0;
+    border-top: 1px solid #eef3f8;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .why-item:first-child { border-top: none; }
+  .why-arrow { font-size: 11px; color: #c0ccd8; }
+
+  /* ════════════════════════════════════
+     OPTION C — Collapse-to-learn
+     Teaser text visible, tap to reveal subcategories
+     (shows one open, others closed)
+  ════════════════════════════════════ */
+  .learn-section { border-bottom: 1px solid #dce8f5; }
+  .learn-header { padding: 14px 0; }
+  .learn-header-top {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;
+  }
+  .learn-icon-title { display: flex; align-items: center; gap: 9px; }
+  .learn-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .learn-title { font-size: 15px; font-weight: 800; color: #030334; }
+  .learn-teaser { font-size: 11px; color: #7A8BAA; line-height: 1.4; padding-left: 17px; }
+  .learn-chevron { font-size: 11px; color: #bbb; }
+  .learn-body { padding: 0 0 14px 17px; }
+  .learn-desc { font-size: 11px; color: #5a7a9a; line-height: 1.5; margin-bottom: 10px; font-style: italic; }
+  .learn-items { display: flex; flex-direction: column; }
+  .learn-item {
+    font-size: 13px; font-weight: 600; color: #030334;
+    padding: 8px 0;
+    border-bottom: 1px solid #eef3f8;
+    display: flex; justify-content: space-between;
+  }
+  .learn-item:last-child { border-bottom: none; }
+  .learn-note { font-size: 9px; color: #aab; margin-top: 8px; font-style: italic; }
+</style>
+
+<div class="cards">
+
+  <!-- ── OPTION A: Numbered Step Journey ── -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="card-image">
+      <div class="phone">
+        <div class="phone-inner">
+
+          <p style="font-size:10px;font-weight:800;color:#4A8ED4;text-transform:uppercase;letter-spacing:1.4px;margin:0 0 16px;">Explore Instruments</p>
+
+          <div class="step-section">
+            <div class="step-left">
+              <div class="step-num">1</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-right">
+              <div class="step-title">What type of asset?</div>
+              <div class="step-desc">India has 6 major asset classes. Understanding each helps you know what instruments are even available to learn about.</div>
+              <div class="step-items">
+                <div class="step-item">Debt <span class="step-arrow">›</span></div>
+                <div class="step-item">Equity <span class="step-arrow">›</span></div>
+                <div class="step-item">Gold <span class="step-arrow">›</span></div>
+                <div class="step-item">Real Estate <span class="step-arrow">›</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-section">
+            <div class="step-left">
+              <div class="step-num">2</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-right">
+              <div class="step-title">How much risk?</div>
+              <div class="step-desc">Every instrument carries different risk. Explore instruments grouped by their risk level to understand what each involves.</div>
+              <div class="step-items">
+                <div class="step-item">Low Risk <span class="step-arrow">›</span></div>
+                <div class="step-item">Moderate Risk <span class="step-arrow">›</span></div>
+                <div class="step-item">High Risk <span class="step-arrow">›</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-section">
+            <div class="step-left">
+              <div class="step-num">3</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-right">
+              <div class="step-title">How are returns structured?</div>
+              <div class="step-desc">Returns can be fixed, market-linked, or mixed. Understanding this helps set realistic expectations before learning about any instrument.</div>
+              <div class="step-items">
+                <div class="step-item">Fixed Returns <span class="step-arrow">›</span></div>
+                <div class="step-item">Market Linked <span class="step-arrow">›</span></div>
+                <div class="step-item">Mixed <span class="step-arrow">›</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-section" style="margin-bottom:0">
+            <div class="step-left">
+              <div class="step-num">4</div>
+            </div>
+            <div class="step-right">
+              <div class="step-title">How long can you commit?</div>
+              <div class="step-desc">Some instruments need years to mature, others offer flexibility. Browse by time commitment to understand what suits different situations.</div>
+              <div class="step-items">
+                <div class="step-item">Short Term <span class="step-arrow">›</span></div>
+                <div class="step-item">Medium Term <span class="step-arrow">›</span></div>
+                <div class="step-item">Long Term <span class="step-arrow">›</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Numbered Learning Path</h3>
+      <p>4 sequential steps. Each has a plain-language question + brief education blurb + tappable items below. Timeline connector ties them together.</p>
+    </div>
+  </div>
+
+  <!-- ── OPTION B: "Why this matters" Blocks ── -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="card-image">
+      <div class="phone">
+        <div class="phone-inner">
+
+          <div class="why-block">
+            <div class="why-eyebrow">
+              <div class="why-accent" style="background:#4A8ED4"></div>
+              <span class="why-label">Asset Classes</span>
+            </div>
+            <div class="why-question">What kinds of investments exist in India?</div>
+            <div class="why-desc">Understanding asset classes is the foundation. Each class behaves differently — in growth, risk, and liquidity.</div>
+            <div class="why-items">
+              <div class="why-item">Debt <span class="why-arrow">›</span></div>
+              <div class="why-item">Equity <span class="why-arrow">›</span></div>
+              <div class="why-item">Gold <span class="why-arrow">›</span></div>
+              <div class="why-item">Infrastructure <span class="why-arrow">›</span></div>
+              <div class="why-item">Real Estate <span class="why-arrow">›</span></div>
+            </div>
+          </div>
+
+          <div class="why-block">
+            <div class="why-eyebrow">
+              <div class="why-accent" style="background:#7C7FE8"></div>
+              <span class="why-label">Risk Profiles</span>
+            </div>
+            <div class="why-question">How does risk vary across instruments?</div>
+            <div class="why-desc">No instrument is risk-free. Learning what each risk level means helps you understand trade-offs before exploring further.</div>
+            <div class="why-items">
+              <div class="why-item">Low <span class="why-arrow">›</span></div>
+              <div class="why-item">Moderate <span class="why-arrow">›</span></div>
+              <div class="why-item">High <span class="why-arrow">›</span></div>
+              <div class="why-item">Very High <span class="why-arrow">›</span></div>
+            </div>
+          </div>
+
+          <div class="why-block">
+            <div class="why-eyebrow">
+              <div class="why-accent" style="background:#D4A017"></div>
+              <span class="why-label">Returns</span>
+            </div>
+            <div class="why-question">How do these instruments earn money?</div>
+            <div class="why-desc">Fixed returns give predictability. Market-linked returns offer potential growth. Understanding this structure is key to financial literacy.</div>
+            <div class="why-items">
+              <div class="why-item">Fixed <span class="why-arrow">›</span></div>
+              <div class="why-item">Market Linked <span class="why-arrow">›</span></div>
+              <div class="why-item">Mixed <span class="why-arrow">›</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>"Why This Matters" Blocks</h3>
+      <p>Each filter has a plain-English question headline + 2-sentence education blurb + items. More editorial, less app-like.</p>
+    </div>
+  </div>
+
+  <!-- ── OPTION C: Collapse-to-learn ── -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="card-image">
+      <div class="phone">
+        <div class="phone-inner">
+
+          <!-- Open section -->
+          <div class="learn-section">
+            <div class="learn-header">
+              <div class="learn-header-top">
+                <div class="learn-icon-title">
+                  <div class="learn-dot" style="background:#4A8ED4"></div>
+                  <div class="learn-title">Asset Classes</div>
+                </div>
+                <span class="learn-chevron">▾</span>
+              </div>
+              <div class="learn-teaser">What types of investments exist in India?</div>
+            </div>
+            <div class="learn-body">
+              <div class="learn-desc">"Understanding asset classes is the foundation — each behaves differently in risk, growth, and liquidity."</div>
+              <div class="learn-items">
+                <div class="learn-item">Debt <span style="font-size:11px;color:#bbb">›</span></div>
+                <div class="learn-item">Equity <span style="font-size:11px;color:#bbb">›</span></div>
+                <div class="learn-item">Gold <span style="font-size:11px;color:#bbb">›</span></div>
+                <div class="learn-item">Infrastructure <span style="font-size:11px;color:#bbb">›</span></div>
+                <div class="learn-item">Real Estate <span style="font-size:11px;color:#bbb">›</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Collapsed sections -->
+          <div class="learn-section">
+            <div class="learn-header">
+              <div class="learn-header-top">
+                <div class="learn-icon-title">
+                  <div class="learn-dot" style="background:#7C7FE8"></div>
+                  <div class="learn-title">Risk Profiles</div>
+                </div>
+                <span class="learn-chevron">›</span>
+              </div>
+              <div class="learn-teaser">How does risk vary across instruments?</div>
+            </div>
+          </div>
+
+          <div class="learn-section">
+            <div class="learn-header">
+              <div class="learn-header-top">
+                <div class="learn-icon-title">
+                  <div class="learn-dot" style="background:#D4A017"></div>
+                  <div class="learn-title">Returns</div>
+                </div>
+                <span class="learn-chevron">›</span>
+              </div>
+              <div class="learn-teaser">How do instruments earn money?</div>
+            </div>
+          </div>
+
+          <div class="learn-section" style="border-bottom:none">
+            <div class="learn-header">
+              <div class="learn-header-top">
+                <div class="learn-icon-title">
+                  <div class="learn-dot" style="background:#059669"></div>
+                  <div class="learn-title">Time Horizon</div>
+                </div>
+                <span class="learn-chevron">›</span>
+              </div>
+              <div class="learn-teaser">How long should you stay invested?</div>
+            </div>
+          </div>
+
+          <p style="font-size:9px;color:#aab;margin-top:10px;text-align:center;font-style:italic;">Tap any section to learn more and explore instruments</p>
+
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Collapse-to-Learn</h3>
+      <p>Each category shows a question teaser. Tap to expand: reveals education blurb + instruments. One section open at a time. Progressive disclosure.</p>
+    </div>
+  </div>
+
+</div>

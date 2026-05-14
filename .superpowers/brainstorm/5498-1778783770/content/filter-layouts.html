@@ -1,0 +1,349 @@
+<h2>Filter Section — Layout Options</h2>
+<p class="subtitle">Pick the layout that feels right for browsing instruments by category</p>
+
+<style>
+  /* Shared reset for mockups */
+  .phone {
+    width: 340px;
+    background: #f5f5f7;
+    border-radius: 36px;
+    overflow: hidden;
+    border: 2px solid #d0d0d5;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  }
+  .phone-inner {
+    background: #f5f5f7;
+    padding: 20px 16px 28px;
+    min-height: 520px;
+  }
+  .cards { gap: 20px; flex-wrap: wrap; justify-content: center; }
+  .card { width: 340px; cursor: pointer; }
+  .card-image { padding: 12px 12px 0; display: flex; justify-content: center; }
+  .card-body { padding: 14px 4px 4px; }
+  .card-body h3 { margin: 0 0 4px; font-size: 15px; }
+  .card-body p { margin: 0; font-size: 12px; color: #666; line-height: 1.4; }
+
+  /* ── Option A: Feed Sections ── */
+  .feed-section { margin-bottom: 18px; }
+  .feed-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px;
+  }
+  .feed-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+  }
+  .feed-title { font-size: 13px; font-weight: 700; color: #030334; letter-spacing: 0.2px; }
+  .feed-count { font-size: 11px; color: #999; margin-left: auto; }
+  .feed-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+  .feed-chips::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #fff; border: 1px solid #e5e5ea;
+    border-radius: 20px; padding: 6px 11px;
+    font-size: 12px; font-weight: 500; color: #030334;
+    white-space: nowrap;
+  }
+  .chip-count {
+    background: #030334; color: #fff;
+    border-radius: 10px; padding: 1px 5px;
+    font-size: 10px; font-weight: 600;
+  }
+  .feed-divider { height: 1px; background: #e5e5ea; margin: 14px 0; }
+
+  /* ── Option B: Directory Index ── */
+  .dir-row {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 0; border-bottom: 1px solid #ebebf0;
+  }
+  .dir-row:last-child { border-bottom: none; }
+  .dir-left {
+    width: 52px; flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+  }
+  .dir-dot {
+    width: 36px; height: 36px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .dir-label { font-size: 9px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
+  .dir-right { flex: 1; }
+  .dir-title { font-size: 14px; font-weight: 700; color: #030334; margin-bottom: 8px; }
+  .dir-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .dir-chip {
+    background: #fff; border: 1px solid #e5e5ea;
+    border-radius: 14px; padding: 4px 9px;
+    font-size: 11px; font-weight: 500; color: #444;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .dir-num { font-size: 10px; color: #999; font-weight: 600; }
+
+  /* ── Option C: Grouped Label Style ── */
+  .group-block { margin-bottom: 16px; }
+  .group-label-row {
+    display: flex; align-items: center; gap: 7px;
+    margin-bottom: 9px;
+  }
+  .group-icon-badge {
+    width: 22px; height: 22px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+  }
+  .group-label-text {
+    font-size: 10px; font-weight: 700; color: #888;
+    text-transform: uppercase; letter-spacing: 1.2px;
+  }
+  .group-line { flex: 1; height: 1px; background: #e8e8ee; }
+  .group-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .gpill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #fff; border: 1.5px solid #eaeaf0;
+    border-radius: 20px; padding: 7px 12px;
+    font-size: 12px; font-weight: 600; color: #030334;
+  }
+  .gpill-n {
+    background: #f0f0f5; color: #666;
+    border-radius: 8px; padding: 1px 5px;
+    font-size: 10px; font-weight: 700;
+  }
+</style>
+
+<div class="cards">
+
+  <!-- OPTION A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="card-image">
+      <div class="phone">
+        <div class="phone-inner">
+
+          <div class="feed-section">
+            <div class="feed-header">
+              <div class="feed-icon" style="background:#EAF2FB">📊</div>
+              <span class="feed-title">Asset Classes</span>
+              <span class="feed-count">6 types</span>
+            </div>
+            <div class="feed-chips">
+              <div class="chip">Debt <span class="chip-count">10</span></div>
+              <div class="chip">Equity <span class="chip-count">5</span></div>
+              <div class="chip">Infra <span class="chip-count">1</span></div>
+              <div class="chip">Gold <span class="chip-count">1</span></div>
+              <div class="chip">Real Estate <span class="chip-count">1</span></div>
+            </div>
+          </div>
+
+          <div class="feed-divider"></div>
+
+          <div class="feed-section">
+            <div class="feed-header">
+              <div class="feed-icon" style="background:#F0EFFF">🛡️</div>
+              <span class="feed-title">Risk Profiles</span>
+              <span class="feed-count">6 levels</span>
+            </div>
+            <div class="feed-chips">
+              <div class="chip">Low <span class="chip-count">8</span></div>
+              <div class="chip">High <span class="chip-count">4</span></div>
+              <div class="chip">Moderate <span class="chip-count">2</span></div>
+              <div class="chip">Mod High <span class="chip-count">2</span></div>
+              <div class="chip">Very High <span class="chip-count">2</span></div>
+            </div>
+          </div>
+
+          <div class="feed-divider"></div>
+
+          <div class="feed-section">
+            <div class="feed-header">
+              <div class="feed-icon" style="background:#FEFDE8">📈</div>
+              <span class="feed-title">Returns</span>
+              <span class="feed-count">3 types</span>
+            </div>
+            <div class="feed-chips">
+              <div class="chip">Market Linked <span class="chip-count">10</span></div>
+              <div class="chip">Fixed <span class="chip-count">8</span></div>
+              <div class="chip">Mixed <span class="chip-count">1</span></div>
+            </div>
+          </div>
+
+          <div class="feed-divider"></div>
+
+          <div class="feed-section">
+            <div class="feed-header">
+              <div class="feed-icon" style="background:#EDFAF4">⏱️</div>
+              <span class="feed-title">Time Horizon</span>
+              <span class="feed-count">4 horizons</span>
+            </div>
+            <div class="feed-chips">
+              <div class="chip">Long <span class="chip-count">7</span></div>
+              <div class="chip">Very Long <span class="chip-count">5</span></div>
+              <div class="chip">Medium <span class="chip-count">5</span></div>
+              <div class="chip">Short <span class="chip-count">2</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Feed Sections</h3>
+      <p>Clean horizontal scroll per category. Light, no cards, scrollable chips reveal more on mobile.</p>
+    </div>
+  </div>
+
+  <!-- OPTION B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="card-image">
+      <div class="phone">
+        <div class="phone-inner">
+
+          <div class="dir-row">
+            <div class="dir-left">
+              <div class="dir-dot" style="background:#EAF2FB">📊</div>
+              <div class="dir-label">Asset<br>Class</div>
+            </div>
+            <div class="dir-right">
+              <div class="dir-title">Asset Classes</div>
+              <div class="dir-chips">
+                <div class="dir-chip">Debt <span class="dir-num">10</span></div>
+                <div class="dir-chip">Equity <span class="dir-num">5</span></div>
+                <div class="dir-chip">Infrastructure <span class="dir-num">1</span></div>
+                <div class="dir-chip">Gold <span class="dir-num">1</span></div>
+                <div class="dir-chip">Real Estate <span class="dir-num">1</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dir-row">
+            <div class="dir-left">
+              <div class="dir-dot" style="background:#F0EFFF">🛡️</div>
+              <div class="dir-label">Risk</div>
+            </div>
+            <div class="dir-right">
+              <div class="dir-title">Risk Profiles</div>
+              <div class="dir-chips">
+                <div class="dir-chip">Low <span class="dir-num">8</span></div>
+                <div class="dir-chip">High <span class="dir-num">4</span></div>
+                <div class="dir-chip">Moderate <span class="dir-num">2</span></div>
+                <div class="dir-chip">Mod High <span class="dir-num">2</span></div>
+                <div class="dir-chip">Very High <span class="dir-num">2</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dir-row">
+            <div class="dir-left">
+              <div class="dir-dot" style="background:#FEFDE8">📈</div>
+              <div class="dir-label">Returns</div>
+            </div>
+            <div class="dir-right">
+              <div class="dir-title">Returns</div>
+              <div class="dir-chips">
+                <div class="dir-chip">Market Linked <span class="dir-num">10</span></div>
+                <div class="dir-chip">Fixed <span class="dir-num">8</span></div>
+                <div class="dir-chip">Mixed <span class="dir-num">1</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dir-row">
+            <div class="dir-left">
+              <div class="dir-dot" style="background:#EDFAF4">⏱️</div>
+              <div class="dir-label">Horizon</div>
+            </div>
+            <div class="dir-right">
+              <div class="dir-title">Time Horizon</div>
+              <div class="dir-chips">
+                <div class="dir-chip">Long <span class="dir-num">7</span></div>
+                <div class="dir-chip">Very Long <span class="dir-num">5</span></div>
+                <div class="dir-chip">Medium <span class="dir-num">5</span></div>
+                <div class="dir-chip">Short <span class="dir-num">2</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Directory Index</h3>
+      <p>Icon + label on the left, wrapped chips on the right. Dense, editorial, like a financial index.</p>
+    </div>
+  </div>
+
+  <!-- OPTION C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="card-image">
+      <div class="phone">
+        <div class="phone-inner">
+
+          <div class="group-block">
+            <div class="group-label-row">
+              <div class="group-icon-badge" style="background:#EAF2FB">📊</div>
+              <span class="group-label-text">Asset Classes</span>
+              <div class="group-line"></div>
+            </div>
+            <div class="group-pills">
+              <div class="gpill">Debt <span class="gpill-n">10</span></div>
+              <div class="gpill">Equity <span class="gpill-n">5</span></div>
+              <div class="gpill">Infrastructure <span class="gpill-n">1</span></div>
+              <div class="gpill">Gold <span class="gpill-n">1</span></div>
+              <div class="gpill">Real Estate <span class="gpill-n">1</span></div>
+            </div>
+          </div>
+
+          <div class="group-block">
+            <div class="group-label-row">
+              <div class="group-icon-badge" style="background:#F0EFFF">🛡️</div>
+              <span class="group-label-text">Risk Profiles</span>
+              <div class="group-line"></div>
+            </div>
+            <div class="group-pills">
+              <div class="gpill">Low <span class="gpill-n">8</span></div>
+              <div class="gpill">High <span class="gpill-n">4</span></div>
+              <div class="gpill">Moderate <span class="gpill-n">2</span></div>
+              <div class="gpill">Mod High <span class="gpill-n">2</span></div>
+              <div class="gpill">Very High <span class="gpill-n">2</span></div>
+            </div>
+          </div>
+
+          <div class="group-block">
+            <div class="group-label-row">
+              <div class="group-icon-badge" style="background:#FEFDE8">📈</div>
+              <span class="group-label-text">Returns</span>
+              <div class="group-line"></div>
+            </div>
+            <div class="group-pills">
+              <div class="gpill">Market Linked <span class="gpill-n">10</span></div>
+              <div class="gpill">Fixed <span class="gpill-n">8</span></div>
+              <div class="gpill">Mixed <span class="gpill-n">1</span></div>
+            </div>
+          </div>
+
+          <div class="group-block">
+            <div class="group-label-row">
+              <div class="group-icon-badge" style="background:#EDFAF4">⏱️</div>
+              <span class="group-label-text">Time Horizon</span>
+              <div class="group-line"></div>
+            </div>
+            <div class="group-pills">
+              <div class="gpill">Long <span class="gpill-n">7</span></div>
+              <div class="gpill">Very Long <span class="gpill-n">5</span></div>
+              <div class="gpill">Medium <span class="gpill-n">5</span></div>
+              <div class="gpill">Short <span class="gpill-n">2</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Grouped Pill Labels</h3>
+      <p>ALL CAPS label header + rule line, then wrapped pills. No backgrounds, minimal chrome.</p>
+    </div>
+  </div>
+
+</div>

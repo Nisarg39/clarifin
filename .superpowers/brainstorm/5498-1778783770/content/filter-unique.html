@@ -1,0 +1,316 @@
+<h2>Filter Section — Unique Layouts</h2>
+<p class="subtitle">No pills, no cards, no badges. Three genuinely different structures.</p>
+
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; }
+  .cards { gap: 24px; flex-wrap: wrap; justify-content: center; }
+  .card { width: 340px; cursor: pointer; }
+  .card-image { padding: 12px 12px 0; display: flex; justify-content: center; }
+  .card-body { padding: 14px 4px 4px; }
+  .card-body h3 { margin: 0 0 4px; font-size: 15px; }
+  .card-body p { margin: 0; font-size: 12px; color: #666; line-height: 1.4; }
+
+  .phone {
+    width: 320px;
+    background: #f7f7fa;
+    border-radius: 36px;
+    overflow: hidden;
+    border: 2px solid #d0d0d5;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  }
+  .phone-inner {
+    padding: 22px 18px 28px;
+    min-height: 500px;
+  }
+
+  /* ══════════════════════════════
+     OPTION A — Typographic Index
+     Full-width text rows, no shapes
+  ══════════════════════════════ */
+  .typo-section { margin-bottom: 0; }
+  .typo-section + .typo-section { border-top: 1.5px solid #e0e0e8; }
+  .typo-cat-header {
+    display: flex; align-items: center; gap: 9px;
+    padding: 12px 0 9px;
+  }
+  .typo-cat-icon {
+    width: 6px; height: 32px; border-radius: 3px;
+  }
+  .typo-cat-name {
+    font-size: 11px; font-weight: 800; color: #999;
+    text-transform: uppercase; letter-spacing: 1.4px;
+  }
+  .typo-items { padding-bottom: 10px; }
+  .typo-item {
+    padding: 7px 0 7px 15px;
+    font-size: 15px; font-weight: 600; color: #030334;
+    border-bottom: 1px solid #ececf2;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .typo-item:last-child { border-bottom: none; }
+  .typo-arrow { font-size: 11px; color: #bbb; }
+
+  /* ══════════════════════════════
+     OPTION B — Bento 2×2 Grid
+     Each cell = one category, items as plain stacked text
+  ══════════════════════════════ */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 8px;
+  }
+  .bento-cell {
+    background: #fff;
+    border-radius: 16px;
+    padding: 14px 12px 12px;
+    border: 1.5px solid #eaeaf0;
+  }
+  .bento-cell-wide {
+    grid-column: 1 / -1;
+  }
+  .bento-label {
+    font-size: 9px; font-weight: 800; color: #aaa;
+    text-transform: uppercase; letter-spacing: 1.3px;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .bento-label-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+  }
+  .bento-items { display: flex; flex-direction: column; gap: 5px; }
+  .bento-item {
+    font-size: 12px; font-weight: 600; color: #1a1a3a;
+    padding: 4px 0;
+    border-bottom: 1px solid #f0f0f5;
+    line-height: 1.2;
+  }
+  .bento-item:last-child { border-bottom: none; }
+
+  /* ══════════════════════════════
+     OPTION C — Segmented Accordion
+     Tap a category header → subcategories slide in as inline text row
+  ══════════════════════════════ */
+  .acc-section { border-bottom: 1px solid #e5e5ea; }
+  .acc-section:first-child { border-top: 1px solid #e5e5ea; }
+  .acc-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0;
+  }
+  .acc-left { display: flex; align-items: center; gap: 10px; }
+  .acc-icon {
+    width: 32px; height: 32px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .acc-title { font-size: 15px; font-weight: 700; color: #030334; }
+  .acc-chevron { font-size: 11px; color: #bbb; transition: transform 0.2s; }
+  .acc-body {
+    padding: 0 0 14px 42px;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .acc-item {
+    font-size: 13px; font-weight: 500; color: #444;
+    padding: 6px 0;
+    border-top: 1px solid #f0f0f5;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .acc-item:first-child { border-top: none; }
+  .acc-dot { width: 4px; height: 4px; border-radius: 50%; background: #d0d0da; margin-right: 10px; flex-shrink: 0; }
+  .acc-item-inner { display: flex; align-items: center; }
+  .acc-item-arrow { font-size: 10px; color: #ccc; }
+</style>
+
+<div class="cards">
+
+  <!-- ── OPTION A: Typographic Index ── -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="card-image">
+      <div class="phone">
+        <div class="phone-inner" style="padding:16px 18px 24px; background:#f7f7fa;">
+
+          <div class="typo-section">
+            <div class="typo-cat-header">
+              <div class="typo-cat-icon" style="background:#4A8ED4;"></div>
+              <span class="typo-cat-name">Asset Classes</span>
+            </div>
+            <div class="typo-items">
+              <div class="typo-item">Debt <span class="typo-arrow">›</span></div>
+              <div class="typo-item">Equity <span class="typo-arrow">›</span></div>
+              <div class="typo-item">Infrastructure <span class="typo-arrow">›</span></div>
+              <div class="typo-item">Gold <span class="typo-arrow">›</span></div>
+              <div class="typo-item">Real Estate <span class="typo-arrow">›</span></div>
+            </div>
+          </div>
+
+          <div class="typo-section">
+            <div class="typo-cat-header">
+              <div class="typo-cat-icon" style="background:#7C7FE8;"></div>
+              <span class="typo-cat-name">Risk Profiles</span>
+            </div>
+            <div class="typo-items">
+              <div class="typo-item">Low <span class="typo-arrow">›</span></div>
+              <div class="typo-item">High <span class="typo-arrow">›</span></div>
+              <div class="typo-item">Moderate <span class="typo-arrow">›</span></div>
+              <div class="typo-item">Very High <span class="typo-arrow">›</span></div>
+            </div>
+          </div>
+
+          <div class="typo-section">
+            <div class="typo-cat-header">
+              <div class="typo-cat-icon" style="background:#D4A017;"></div>
+              <span class="typo-cat-name">Returns</span>
+            </div>
+            <div class="typo-items">
+              <div class="typo-item">Market Linked <span class="typo-arrow">›</span></div>
+              <div class="typo-item">Fixed <span class="typo-arrow">›</span></div>
+              <div class="typo-item">Mixed <span class="typo-arrow">›</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Typographic Index</h3>
+      <p>Color-bar labels + plain text rows with arrow. No shapes. Pure typography like a financial glossary.</p>
+    </div>
+  </div>
+
+  <!-- ── OPTION B: Bento Grid ── -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="card-image">
+      <div class="phone">
+        <div class="phone-inner" style="background:#f7f7fa;">
+          <div class="bento-grid">
+
+            <div class="bento-cell" style="border-top: 3px solid #4A8ED4;">
+              <div class="bento-label">
+                <div class="bento-label-dot" style="background:#4A8ED4;"></div>
+                Asset Classes
+              </div>
+              <div class="bento-items">
+                <div class="bento-item">Debt</div>
+                <div class="bento-item">Equity</div>
+                <div class="bento-item">Infrastructure</div>
+                <div class="bento-item">Gold</div>
+                <div class="bento-item">Real Estate</div>
+              </div>
+            </div>
+
+            <div class="bento-cell" style="border-top: 3px solid #7C7FE8;">
+              <div class="bento-label">
+                <div class="bento-label-dot" style="background:#7C7FE8;"></div>
+                Risk Profiles
+              </div>
+              <div class="bento-items">
+                <div class="bento-item">Low</div>
+                <div class="bento-item">High</div>
+                <div class="bento-item">Moderate</div>
+                <div class="bento-item">Mod High</div>
+                <div class="bento-item">Very High</div>
+              </div>
+            </div>
+
+            <div class="bento-cell" style="border-top: 3px solid #D4A017;">
+              <div class="bento-label">
+                <div class="bento-label-dot" style="background:#D4A017;"></div>
+                Returns
+              </div>
+              <div class="bento-items">
+                <div class="bento-item">Market Linked</div>
+                <div class="bento-item">Fixed</div>
+                <div class="bento-item">Mixed</div>
+              </div>
+            </div>
+
+            <div class="bento-cell" style="border-top: 3px solid #059669;">
+              <div class="bento-label">
+                <div class="bento-label-dot" style="background:#059669;"></div>
+                Time Horizon
+              </div>
+              <div class="bento-items">
+                <div class="bento-item">Long</div>
+                <div class="bento-item">Very Long</div>
+                <div class="bento-item">Medium</div>
+                <div class="bento-item">Short</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Bento Grid</h3>
+      <p>2×2 cells, each a category. Color-accent top bar, text-list items inside. No pills, no badges.</p>
+    </div>
+  </div>
+
+  <!-- ── OPTION C: Accordion ── -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="card-image">
+      <div class="phone">
+        <div class="phone-inner" style="background:#f7f7fa;">
+
+          <div class="acc-section">
+            <div class="acc-header">
+              <div class="acc-left">
+                <div class="acc-icon" style="background:#EAF2FB;">📊</div>
+                <span class="acc-title">Asset Classes</span>
+              </div>
+              <span class="acc-chevron">▾</span>
+            </div>
+            <div class="acc-body">
+              <div class="acc-item"><div class="acc-item-inner"><div class="acc-dot"></div>Debt</div><span class="acc-item-arrow">›</span></div>
+              <div class="acc-item"><div class="acc-item-inner"><div class="acc-dot"></div>Equity</div><span class="acc-item-arrow">›</span></div>
+              <div class="acc-item"><div class="acc-item-inner"><div class="acc-dot"></div>Infrastructure</div><span class="acc-item-arrow">›</span></div>
+              <div class="acc-item"><div class="acc-item-inner"><div class="acc-dot"></div>Gold</div><span class="acc-item-arrow">›</span></div>
+              <div class="acc-item"><div class="acc-item-inner"><div class="acc-dot"></div>Real Estate</div><span class="acc-item-arrow">›</span></div>
+            </div>
+          </div>
+
+          <div class="acc-section">
+            <div class="acc-header">
+              <div class="acc-left">
+                <div class="acc-icon" style="background:#F0EFFF;">🛡️</div>
+                <span class="acc-title">Risk Profiles</span>
+              </div>
+              <span class="acc-chevron">›</span>
+            </div>
+          </div>
+
+          <div class="acc-section">
+            <div class="acc-header">
+              <div class="acc-left">
+                <div class="acc-icon" style="background:#FEFDE8;">📈</div>
+                <span class="acc-title">Returns</span>
+              </div>
+              <span class="acc-chevron">›</span>
+            </div>
+          </div>
+
+          <div class="acc-section">
+            <div class="acc-header">
+              <div class="acc-left">
+                <div class="acc-icon" style="background:#EDFAF4;">⏱️</div>
+                <span class="acc-title">Time Horizon</span>
+              </div>
+              <span class="acc-chevron">›</span>
+            </div>
+          </div>
+
+          <p style="font-size:10px;color:#aaa;margin-top:12px;text-align:center;">Tap header to expand — one open at a time</p>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Accordion</h3>
+      <p>Collapsed category rows. Tap to expand subcategories as a plain text list. Space-efficient.</p>
+    </div>
+  </div>
+
+</div>

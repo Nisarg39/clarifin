@@ -1,0 +1,329 @@
+<h2>Filter Section — No Badges</h2>
+<p class="subtitle">Same 3 layouts, count badges removed. Pick your favourite.</p>
+
+<style>
+  .phone {
+    width: 340px;
+    background: #f5f5f7;
+    border-radius: 36px;
+    overflow: hidden;
+    border: 2px solid #d0d0d5;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  }
+  .phone-inner {
+    background: #f5f5f7;
+    padding: 20px 16px 28px;
+    min-height: 480px;
+  }
+  .cards { gap: 20px; flex-wrap: wrap; justify-content: center; }
+  .card { width: 340px; cursor: pointer; }
+  .card-image { padding: 12px 12px 0; display: flex; justify-content: center; }
+  .card-body { padding: 14px 4px 4px; }
+  .card-body h3 { margin: 0 0 4px; font-size: 15px; }
+  .card-body p { margin: 0; font-size: 12px; color: #666; line-height: 1.4; }
+
+  /* ── Option A: Feed Sections ── */
+  .feed-section { margin-bottom: 16px; }
+  .feed-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 9px;
+  }
+  .feed-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+  }
+  .feed-title { font-size: 13px; font-weight: 700; color: #030334; }
+  .feed-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+  .feed-chips::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0;
+    background: #fff; border: 1px solid #e5e5ea;
+    border-radius: 20px; padding: 6px 12px;
+    font-size: 12px; font-weight: 500; color: #030334;
+    white-space: nowrap;
+  }
+  .feed-divider { height: 1px; background: #e5e5ea; margin: 12px 0; }
+
+  /* ── Option B: Directory Index ── */
+  .dir-row {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 13px 0; border-bottom: 1px solid #ebebf0;
+  }
+  .dir-row:last-child { border-bottom: none; }
+  .dir-left {
+    width: 50px; flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .dir-dot {
+    width: 34px; height: 34px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+  .dir-label { font-size: 9px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.4px; text-align: center; line-height: 1.2; }
+  .dir-right { flex: 1; }
+  .dir-title { font-size: 13px; font-weight: 700; color: #030334; margin-bottom: 7px; }
+  .dir-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .dir-chip {
+    background: #fff; border: 1px solid #e5e5ea;
+    border-radius: 14px; padding: 4px 10px;
+    font-size: 11px; font-weight: 500; color: #444;
+  }
+
+  /* ── Option C: Grouped Label Style ── */
+  .group-block { margin-bottom: 15px; }
+  .group-label-row {
+    display: flex; align-items: center; gap: 7px;
+    margin-bottom: 8px;
+  }
+  .group-icon-badge {
+    width: 20px; height: 20px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+  }
+  .group-label-text {
+    font-size: 10px; font-weight: 700; color: #888;
+    text-transform: uppercase; letter-spacing: 1.2px;
+  }
+  .group-line { flex: 1; height: 1px; background: #e8e8ee; }
+  .group-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .gpill {
+    background: #fff; border: 1.5px solid #eaeaf0;
+    border-radius: 20px; padding: 7px 13px;
+    font-size: 12px; font-weight: 600; color: #030334;
+  }
+</style>
+
+<div class="cards">
+
+  <!-- OPTION A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="card-image">
+      <div class="phone">
+        <div class="phone-inner">
+
+          <div class="feed-section">
+            <div class="feed-header">
+              <div class="feed-icon" style="background:#EAF2FB">📊</div>
+              <span class="feed-title">Asset Classes</span>
+            </div>
+            <div class="feed-chips">
+              <div class="chip">Debt</div>
+              <div class="chip">Equity</div>
+              <div class="chip">Infrastructure</div>
+              <div class="chip">Gold</div>
+              <div class="chip">Real Estate</div>
+            </div>
+          </div>
+
+          <div class="feed-divider"></div>
+
+          <div class="feed-section">
+            <div class="feed-header">
+              <div class="feed-icon" style="background:#F0EFFF">🛡️</div>
+              <span class="feed-title">Risk Profiles</span>
+            </div>
+            <div class="feed-chips">
+              <div class="chip">Low</div>
+              <div class="chip">High</div>
+              <div class="chip">Moderate</div>
+              <div class="chip">Moderately High</div>
+              <div class="chip">Very High</div>
+            </div>
+          </div>
+
+          <div class="feed-divider"></div>
+
+          <div class="feed-section">
+            <div class="feed-header">
+              <div class="feed-icon" style="background:#FEFDE8">📈</div>
+              <span class="feed-title">Returns</span>
+            </div>
+            <div class="feed-chips">
+              <div class="chip">Market Linked</div>
+              <div class="chip">Fixed</div>
+              <div class="chip">Mixed</div>
+            </div>
+          </div>
+
+          <div class="feed-divider"></div>
+
+          <div class="feed-section">
+            <div class="feed-header">
+              <div class="feed-icon" style="background:#EDFAF4">⏱️</div>
+              <span class="feed-title">Time Horizon</span>
+            </div>
+            <div class="feed-chips">
+              <div class="chip">Long</div>
+              <div class="chip">Very Long</div>
+              <div class="chip">Medium</div>
+              <div class="chip">Short</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Feed Sections</h3>
+      <p>Horizontal scroll per category. Chips overflow right on mobile — swipe to see more.</p>
+    </div>
+  </div>
+
+  <!-- OPTION B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="card-image">
+      <div class="phone">
+        <div class="phone-inner">
+
+          <div class="dir-row">
+            <div class="dir-left">
+              <div class="dir-dot" style="background:#EAF2FB">📊</div>
+              <div class="dir-label">Asset<br>Class</div>
+            </div>
+            <div class="dir-right">
+              <div class="dir-title">Asset Classes</div>
+              <div class="dir-chips">
+                <div class="dir-chip">Debt</div>
+                <div class="dir-chip">Equity</div>
+                <div class="dir-chip">Infrastructure</div>
+                <div class="dir-chip">Gold</div>
+                <div class="dir-chip">Real Estate</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dir-row">
+            <div class="dir-left">
+              <div class="dir-dot" style="background:#F0EFFF">🛡️</div>
+              <div class="dir-label">Risk</div>
+            </div>
+            <div class="dir-right">
+              <div class="dir-title">Risk Profiles</div>
+              <div class="dir-chips">
+                <div class="dir-chip">Low</div>
+                <div class="dir-chip">High</div>
+                <div class="dir-chip">Moderate</div>
+                <div class="dir-chip">Mod High</div>
+                <div class="dir-chip">Very High</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dir-row">
+            <div class="dir-left">
+              <div class="dir-dot" style="background:#FEFDE8">📈</div>
+              <div class="dir-label">Returns</div>
+            </div>
+            <div class="dir-right">
+              <div class="dir-title">Returns</div>
+              <div class="dir-chips">
+                <div class="dir-chip">Market Linked</div>
+                <div class="dir-chip">Fixed</div>
+                <div class="dir-chip">Mixed</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dir-row">
+            <div class="dir-left">
+              <div class="dir-dot" style="background:#EDFAF4">⏱️</div>
+              <div class="dir-label">Horizon</div>
+            </div>
+            <div class="dir-right">
+              <div class="dir-title">Time Horizon</div>
+              <div class="dir-chips">
+                <div class="dir-chip">Long</div>
+                <div class="dir-chip">Very Long</div>
+                <div class="dir-chip">Medium</div>
+                <div class="dir-chip">Short</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Directory Index</h3>
+      <p>Icon + label left column, wrapped chips right. Dense, editorial, finance-index feel.</p>
+    </div>
+  </div>
+
+  <!-- OPTION C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="card-image">
+      <div class="phone">
+        <div class="phone-inner">
+
+          <div class="group-block">
+            <div class="group-label-row">
+              <div class="group-icon-badge" style="background:#EAF2FB">📊</div>
+              <span class="group-label-text">Asset Classes</span>
+              <div class="group-line"></div>
+            </div>
+            <div class="group-pills">
+              <div class="gpill">Debt</div>
+              <div class="gpill">Equity</div>
+              <div class="gpill">Infrastructure</div>
+              <div class="gpill">Gold</div>
+              <div class="gpill">Real Estate</div>
+            </div>
+          </div>
+
+          <div class="group-block">
+            <div class="group-label-row">
+              <div class="group-icon-badge" style="background:#F0EFFF">🛡️</div>
+              <span class="group-label-text">Risk Profiles</span>
+              <div class="group-line"></div>
+            </div>
+            <div class="group-pills">
+              <div class="gpill">Low</div>
+              <div class="gpill">High</div>
+              <div class="gpill">Moderate</div>
+              <div class="gpill">Mod High</div>
+              <div class="gpill">Very High</div>
+            </div>
+          </div>
+
+          <div class="group-block">
+            <div class="group-label-row">
+              <div class="group-icon-badge" style="background:#FEFDE8">📈</div>
+              <span class="group-label-text">Returns</span>
+              <div class="group-line"></div>
+            </div>
+            <div class="group-pills">
+              <div class="gpill">Market Linked</div>
+              <div class="gpill">Fixed</div>
+              <div class="gpill">Mixed</div>
+            </div>
+          </div>
+
+          <div class="group-block">
+            <div class="group-label-row">
+              <div class="group-icon-badge" style="background:#EDFAF4">⏱️</div>
+              <span class="group-label-text">Time Horizon</span>
+              <div class="group-line"></div>
+            </div>
+            <div class="group-pills">
+              <div class="gpill">Long</div>
+              <div class="gpill">Very Long</div>
+              <div class="gpill">Medium</div>
+              <div class="gpill">Short</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Grouped Pill Labels</h3>
+      <p>ALL CAPS header + rule line, wrapped pills. Zero background chrome, most minimal.</p>
+    </div>
+  </div>
+
+</div>

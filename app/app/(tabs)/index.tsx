@@ -3,8 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, useWindowD
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { Layers, ShieldAlert, Clock, TrendingUp } from "lucide-react-native";
-import { colors, fonts, shadows, radius } from "@/constants/theme";
+import { colors, fonts, shadows, appBackground } from "@/constants/theme";
 import { fetchDashboardSummary } from "@/lib/api";
 import { DashboardSummaryResponse, DashboardStat } from "@/lib/types";
 
@@ -22,6 +21,37 @@ function formatDate(iso: string | null | undefined): string {
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
+const OPTION_DESCRIPTIONS: Record<string, string> = {
+  debt:            "Loans to governments or companies. Typically stable with fixed or floating interest.",
+  equity:          "Ownership stake in companies. Higher growth potential with market volatility.",
+  gold:            "Physical or paper gold. A traditional hedge against inflation and currency risk.",
+  infrastructure:  "Investment in large-scale public assets like roads, ports, and power.",
+  alternative:     "Non-traditional assets including private equity and structured products.",
+  real_estate:     "Property-backed instruments including REITs and real estate debt.",
+  low:             "Capital preservation focused. Minimal price fluctuation, lower return potential.",
+  low_to_moderate: "Slightly above capital preservation. Limited volatility with modest growth.",
+  moderate:        "Balanced approach. Accepts some fluctuation for moderate growth potential.",
+  moderately_high: "Tolerates significant value swings in pursuit of higher long-term growth.",
+  high:            "Accepts large fluctuations. Suited to long horizons with growth-focused goals.",
+  very_high:       "Maximum risk tolerance. Significant loss potential alongside high upside.",
+  market_linked:   "Returns depend on market performance. Variable — can be higher or lower than expected.",
+  fixed:           "Predetermined return rate. Predictable income regardless of market conditions.",
+  mixed:           "Combines fixed and market-linked return components in the same instrument.",
+  short:           "1–3 years. Prioritises liquidity and capital safety over growth.",
+  medium:          "3–7 years. Balances growth potential with reasonable accessibility.",
+  long:            "7–15 years. Allows market cycles to play out for better compounding.",
+  very_long:       "15+ years. Maximum compounding potential for long-term wealth building.",
+};
+
+interface StepDef {
+  stepNumber: number;
+  question: string;
+  description: string;
+  filterKey: string;
+  accentColor: string;
+  data: DashboardStat[];
+}
+
 export default function HomeScreen() {
   const router = useRouter();
   const { width } = useWindowDimensions();
@@ -37,137 +67,127 @@ export default function HomeScreen() {
 
   const totalInstruments = data ? data.asset_class.reduce((acc, i) => acc + i.count, 0) : 0;
 
-  function handleCardPress(key: string, value: string) {
-    router.push({
-      pathname: "/explore",
-      params: { [key]: value },
-    });
+  function handleItemPress(key: string, value: string) {
+    router.push({ pathname: "/explore", params: { [key]: value } });
   }
 
   if (loading) {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: colors.bgApp }} edges={["top"]}>
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
+        <LinearGradient colors={appBackground.colors} start={appBackground.start} end={appBackground.end} style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
           <ActivityIndicator size="large" color={colors.primary} />
-        </View>
+        </LinearGradient>
       </SafeAreaView>
     );
   }
 
   const isDesktop = width > 768;
 
+  const steps: StepDef[] = data ? [
+    {
+      stepNumber: 1,
+      question: "What type of asset?",
+      description: "India has more investment options than just FDs and mutual funds. Understanding asset classes helps you discover what instruments are available to learn about.",
+      filterKey: "asset_class",
+      accentColor: "#4A8ED4",
+      data: data.asset_class,
+    },
+    {
+      stepNumber: 2,
+      question: "How much risk does it carry?",
+      description: "Every instrument involves a trade-off between risk and potential return. Exploring by risk level helps you understand what each instrument involves before diving deeper.",
+      filterKey: "risk_level",
+      accentColor: "#7C7FE8",
+      data: data.risk_level,
+    },
+    {
+      stepNumber: 3,
+      question: "How are returns structured?",
+      description: "Returns can be fixed (predictable), market-linked (variable), or mixed. Understanding this structure helps set realistic expectations before learning about any instrument.",
+      filterKey: "return_nature",
+      accentColor: "#D4A017",
+      data: data.return_nature,
+    },
+    {
+      stepNumber: 4,
+      question: "How long is the commitment?",
+      description: "Some instruments need years to perform, others offer easy exits. Browsing by time horizon helps you understand which instruments suit different life situations.",
+      filterKey: "recommended_horizon",
+      accentColor: "#059669",
+      data: data.recommended_horizon,
+    },
+  ] : [];
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.bgApp }} edges={["top"]}>
-      <ScrollView
+    <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
+      <LinearGradient
+        colors={appBackground.colors}
+        start={appBackground.start}
+        end={appBackground.end}
         style={{ flex: 1 }}
-        contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
-        showsVerticalScrollIndicator={false}
       >
-        {/* Header Section */}
-        <View style={{ marginBottom: 28 }}>
-          <Text style={{ fontFamily: fonts.displayBold, fontSize: 32, color: colors.textPrimary, marginBottom: 4, letterSpacing: -1 }}>
-            Welcome back 👋
-          </Text>
-          <Text style={{ fontFamily: fonts.interRegular, fontSize: 16, color: colors.textSecondary }}>
-            Your financial universe, summarized.
-          </Text>
-        </View>
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ padding: 20, paddingBottom: 48 }}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Header */}
+          <View style={{ marginBottom: 28 }}>
+            <Text style={{ fontFamily: fonts.displayBold, fontSize: 32, color: colors.textPrimary, marginBottom: 4, letterSpacing: -1 }}>
+              Welcome back 👋
+            </Text>
+            <Text style={{ fontFamily: fonts.interRegular, fontSize: 16, color: colors.textSecondary }}>
+              Your financial universe, summarized.
+            </Text>
+          </View>
 
-        {/* Market Insight — 3-stat ticker */}
-        {data && (
-          <MarketInsightTicker
-            totalInstruments={totalInstruments}
-            lastCreatedAt={data.lastInstrumentCreatedAt}
-            marketLinkedPct={totalInstruments > 0
-              ? Math.round(((data.return_nature.find(r => r._id === "market_linked")?.count ?? 0) / totalInstruments) * 100)
-              : null}
-            isDesktop={isDesktop}
-            onPress={() => router.push("/explore")}
-          />
-        )}
+          {/* Market Insight ticker */}
+          {data && (
+            <MarketInsightTicker
+              totalInstruments={totalInstruments}
+              lastCreatedAt={data.lastInstrumentCreatedAt}
+              marketLinkedPct={totalInstruments > 0
+                ? Math.round(((data.return_nature.find(r => r._id === "market_linked")?.count ?? 0) / totalInstruments) * 100)
+                : null}
+              isDesktop={isDesktop}
+              onPress={() => router.push("/explore")}
+            />
+          )}
 
-        {/* Categories Grid */}
-        <View style={{ 
-          flexDirection: isDesktop ? "row" : "column", 
-          flexWrap: isDesktop ? "wrap" : "nowrap", 
-          gap: 20 
-        }}>
-          <FilterCategoryCard
-            title="Asset Classes"
-            subtitle="Explore by instrument type"
-            icon={Layers}
-            data={data?.asset_class}
-            filterKey="asset_class"
-            onPress={handleCardPress}
-            theme={{
-              gradient: ["#70AAE4", "#4A8ED4"] as const,
-              text: colors.navy,
-              sub: "rgba(3,3,52,0.6)",
-              pillBg: "rgba(255,255,255,0.4)",
-              pillBorder: "rgba(255,255,255,0.3)",
-              iconColor: "#FFFFFF"
-            }}
-            style={{ flex: isDesktop ? 1 : undefined, minWidth: isDesktop ? "45%" : "100%" }}
-          />
+          {/* Intro section */}
+          <IntroSection isDesktop={isDesktop} />
 
-          <FilterCategoryCard
-            title="Risk Profiles"
-            subtitle="Manage your exposure"
-            icon={ShieldAlert}
-            data={data?.risk_level}
-            filterKey="risk_level"
-            onPress={handleCardPress}
-            theme={{
-              gradient: ["#D6D9FF", "#B5BAFF"] as const,
-              text: colors.navy,
-              sub: "rgba(3,3,52,0.6)",
-              pillBg: "rgba(255,255,255,0.4)",
-              pillBorder: "rgba(255,255,255,0.2)",
-              iconColor: "#5B61E1"
-            }}
-            style={{ flex: isDesktop ? 1 : undefined, minWidth: isDesktop ? "45%" : "100%" }}
-          />
+          {/* Section label — design system: Inter Bold 700, 11sp, skyBlue, ALL CAPS, letterSpacing 1.5-2 */}
+          {steps.length > 0 && (
+            <Text style={{
+              fontFamily: fonts.interBold,
+              fontSize: 11,
+              color: colors.skyBlue,
+              textTransform: "uppercase",
+              letterSpacing: 1.8,
+              marginBottom: 24,
+            }}>
+              Explore Instruments
+            </Text>
+          )}
 
-          <FilterCategoryCard
-            title="Returns"
-            subtitle="How yields are structured"
-            icon={TrendingUp}
-            data={data?.return_nature}
-            filterKey="return_nature"
-            onPress={handleCardPress}
-            theme={{
-              gradient: ["#F5F27A", "#EDE84A"] as const,
-              text: colors.navy,
-              sub: "rgba(3,3,52,0.5)",
-              pillBg: "rgba(255,255,255,0.5)",
-              pillBorder: "rgba(3,3,52,0.05)",
-              iconColor: colors.navy
-            }}
-            style={{ flex: isDesktop ? 1 : undefined, minWidth: isDesktop ? "45%" : "100%" }}
-          />
-
-          <FilterCategoryCard
-            title="Time Horizon"
-            subtitle="Lock-in and commitment"
-            icon={Clock}
-            data={data?.recommended_horizon}
-            filterKey="recommended_horizon"
-            onPress={handleCardPress}
-            theme={{
-              gradient: ["#D1FAE5", "#A7F3D0"] as const,
-              text: colors.navy,
-              sub: "rgba(3,3,52,0.6)",
-              pillBg: "rgba(255,255,255,0.4)",
-              pillBorder: "rgba(255,255,255,0.2)",
-              iconColor: "#059669"
-            }}
-            style={{ flex: isDesktop ? 1 : undefined, minWidth: isDesktop ? "45%" : "100%" }}
-          />
-        </View>
-      </ScrollView>
+          {/* Learning steps */}
+          {steps.map((step, idx) => (
+            <LearningStep
+              key={step.filterKey}
+              step={step}
+              isLast={idx === steps.length - 1}
+              isDesktop={isDesktop}
+              onPress={handleItemPress}
+            />
+          ))}
+        </ScrollView>
+      </LinearGradient>
     </SafeAreaView>
   );
 }
+
+// ─── MarketInsightTicker ────────────────────────────────────────────────────
 
 interface MarketInsightTickerProps {
   totalInstruments: number;
@@ -263,94 +283,254 @@ function MarketInsightTicker({ totalInstruments, lastCreatedAt, marketLinkedPct,
   );
 }
 
-interface CardProps {
-  title: string;
-  subtitle: string;
-  icon: any;
-  data?: DashboardStat[];
-  filterKey: string;
-  onPress: (key: string, value: string) => void;
-  theme: {
-    gradient: readonly [string, string, ...string[]];
-    text: string;
-    sub: string;
-    pillBg: string;
-    pillBorder: string;
-    iconColor: string;
-  };
-  style?: any;
-}
+// ─── IntroSection ───────────────────────────────────────────────────────────
 
-function FilterCategoryCard({ title, subtitle, icon: Icon, data, filterKey, onPress, theme, style }: CardProps) {
-  if (!data || data.length === 0) return null;
-
+function IntroSection({ isDesktop }: { isDesktop: boolean }) {
   return (
-    <View style={{ borderRadius: radius.xl, overflow: "hidden", ...shadows.level2, ...style }}>
-    <LinearGradient
-      colors={theme.gradient}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={{ padding: 24 }}
-    >
-      {/* Card Header */}
-      <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 20 }}>
-        <View style={{ flex: 1 }}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 4 }}>
-            <View style={{ backgroundColor: theme.pillBg, padding: 8, borderRadius: 12 }}>
-              <Icon size={20} color={theme.iconColor} strokeWidth={2.5} />
+    <View style={{ marginBottom: 32, gap: 12, flexDirection: isDesktop ? "row" : "column", alignItems: isDesktop ? "flex-start" : "stretch" }}>
+
+      {/* Deep Blue brand card — about Clarifin */}
+      <View style={{
+        flex: isDesktop ? 1 : undefined,
+        backgroundColor: "#4A8ED4", // Deeper, more saturated brand blue
+        borderRadius: 20,
+        padding: 20,
+        ...shadows.level2,
+        elevation: 5,
+      }}>
+        <View>
+            <Text style={{
+              fontFamily: fonts.interBold,
+              fontSize: 11,
+              color: colors.textOnDark,
+              opacity: 0.65,
+              textTransform: "uppercase",
+              letterSpacing: 1.8,
+              marginBottom: 10,
+            }}>
+              About Clarifin
+            </Text>
+            <Text style={{
+              fontFamily: fonts.displayBold,
+              fontSize: 28,
+              color: colors.textOnDark,
+              letterSpacing: -1,
+              lineHeight: 32,
+              marginBottom: 10,
+            }}>
+              Clarity in Finance
+            </Text>
+            <Text style={{
+              fontFamily: fonts.interRegular,
+              fontSize: 13,
+              color: colors.textOnDark,
+              opacity: 0.85,
+              lineHeight: 20,
+              marginBottom: 16,
+            }}>
+              Clarifin is an investment education platform. We help you understand what financial instruments exist in India — how they work, what they involve, and who typically uses them.
+            </Text>
+            {/* Badges */}
+            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+              {["Education only", "Not SEBI-registered", "No buy/sell advice"].map((label) => (
+                <View key={label} style={{
+                  backgroundColor: "rgba(255,255,255,0.20)",
+                  borderRadius: 9999,
+                  paddingHorizontal: 10,
+                  paddingVertical: 4,
+                }}>
+                  <Text style={{ fontFamily: fonts.interSemi, fontSize: 11, color: colors.textOnDark, letterSpacing: 0.2 }}>
+                    {label}
+                  </Text>
+                </View>
+              ))}
             </View>
-            <Text style={{ 
-          fontFamily: fonts.soraBold, 
-          fontSize: 22, 
-          color: theme.text, 
-          marginBottom: 2,
-          letterSpacing: -0.5
-        }}>
-          {title}
-        </Text>
           </View>
-          <Text style={{ fontFamily: fonts.interRegular, fontSize: 13, color: theme.sub }}>
-            {subtitle}
+      </View>
+
+      {/* Instrument Defined card — matched to About Clarifin style and color */}
+      <View style={{
+        flex: isDesktop ? 1 : undefined,
+        backgroundColor: "#F5F27A",
+        borderRadius: 20,
+        padding: 20,
+        shadowColor: "#F5F27A",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.45,
+        shadowRadius: 20,
+        elevation: 5,
+      }}>
+        <View>
+          <Text style={{
+            fontFamily: fonts.interBold,
+            fontSize: 11,
+            color: colors.textPrimary,
+            opacity: 0.55,
+            textTransform: "uppercase",
+            letterSpacing: 1.8,
+            marginBottom: 10,
+          }}>
+            Instrument — Defined
           </Text>
+          <Text style={{
+            fontFamily: fonts.displayBold,
+            fontSize: 28,
+            color: colors.textPrimary,
+            letterSpacing: -1,
+            lineHeight: 32,
+            marginBottom: 10,
+          }}>
+            What exactly is an "instrument"?
+          </Text>
+          <Text style={{
+            fontFamily: fonts.interRegular,
+            fontSize: 13,
+            color: colors.textPrimary,
+            opacity: 0.75,
+            lineHeight: 20,
+            marginBottom: 16,
+          }}>
+            Simply put, an instrument is any "container" where you put your money to help it grow. Whether it's a bank deposit or a piece of gold, they are all just different tools to build your future wealth.
+          </Text>
+          {/* Badges */}
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+            {["FDs", "Bonds", "Stocks", "Gold", "REITs"].map((label) => (
+              <View key={label} style={{
+                backgroundColor: "rgba(3,3,52,0.10)",
+                borderRadius: 9999,
+                paddingHorizontal: 10,
+                paddingVertical: 4,
+              }}>
+                <Text style={{ fontFamily: fonts.interSemi, fontSize: 11, color: colors.textPrimary, letterSpacing: 0.2 }}>
+                  {label}
+                </Text>
+              </View>
+            ))}
+          </View>
         </View>
       </View>
 
-      {/* Options — tag chip layout */}
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-        {data.map((item) => (
-          <TouchableOpacity
-            key={item._id}
-            activeOpacity={0.7}
-            onPress={() => onPress(filterKey, item._id)}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 6,
-              backgroundColor: "rgba(0,0,0,0.1)",
-              borderRadius: radius.full,
-              paddingHorizontal: 13,
-              paddingVertical: 8,
-            }}
-          >
-            <Text style={{ fontFamily: fonts.interSemi, fontSize: 13, color: theme.text }}>
-              {formatLabel(item._id)}
-            </Text>
-            <View style={{
-              backgroundColor: "rgba(0,0,0,0.12)",
-              borderRadius: 20,
-              paddingHorizontal: 6,
-              paddingVertical: 1,
-              minWidth: 20,
-              alignItems: "center",
-            }}>
-              <Text style={{ fontFamily: fonts.interSemi, fontSize: 10, color: theme.text, opacity: 0.75 }}>
-                {item.count}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ))}
+    </View>
+  );
+}
+
+// ─── LearningStep ───────────────────────────────────────────────────────────
+
+interface LearningStepProps {
+  step: StepDef;
+  isLast: boolean;
+  isDesktop: boolean;
+  onPress: (key: string, value: string) => void;
+}
+
+function LearningStep({ step, isLast, isDesktop, onPress }: LearningStepProps) {
+  const colWidth: any = isDesktop ? "33.33%" : "100%";
+
+  return (
+    <View style={{ flexDirection: "row", gap: 16, marginBottom: isLast ? 0 : 40 }}>
+      {/* Step indicator + connecting line */}
+      <View style={{ alignItems: "center", width: 32 }}>
+        <View style={{
+          width: 32, height: 32, borderRadius: 16,
+          backgroundColor: colors.textPrimary,
+          alignItems: "center", justifyContent: "center",
+          ...shadows.level2,
+        }}>
+          <Text style={{ fontFamily: fonts.interBold, fontSize: 13, color: "#fff" }}>
+            {step.stepNumber}
+          </Text>
+        </View>
+        {!isLast && (
+          <View style={{ width: 1.5, flex: 1, backgroundColor: colors.borderDefault, marginTop: 8, minHeight: 32 }} />
+        )}
       </View>
-    </LinearGradient>
+
+      {/* Content */}
+      <View style={{ flex: 1 }}>
+        {/* Step question — Inter Bold, design system title-lg (18sp) */}
+        <Text style={{
+          fontFamily: fonts.interBold,
+          fontSize: isDesktop ? 19 : 17,
+          color: colors.textPrimary,
+          letterSpacing: -0.3,
+          marginBottom: 6,
+          lineHeight: isDesktop ? 26 : 23,
+        }}>
+          {step.question}
+        </Text>
+
+        {/* Description — Inter Regular, textSecondary (#4A6A8A) */}
+        <Text style={{
+          fontFamily: fonts.interRegular,
+          fontSize: 13,
+          color: colors.textSecondary,
+          lineHeight: 20,
+          marginBottom: 16,
+          maxWidth: isDesktop ? 560 : undefined,
+        }}>
+          {step.description}
+        </Text>
+
+        {/* Options — white card, shadow Level 2, radius-lg 20px, border borderLight */}
+        <View style={{
+          backgroundColor: colors.bgCard,
+          borderRadius: 20,
+          borderWidth: 1,
+          borderColor: colors.borderLight,
+          overflow: "hidden",
+          ...shadows.level2,
+        }}>
+          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            {step.data.map((item) => (
+              <TouchableOpacity
+                key={item._id}
+                activeOpacity={0.6}
+                onPress={() => onPress(step.filterKey, item._id)}
+                style={{
+                  width: colWidth,
+                  padding: 16,
+                  borderBottomWidth: 1,
+                  borderRightWidth: 1,
+                  borderColor: colors.borderLight,
+                }}
+              >
+                <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 10 }}>
+                  {/* Accent bar */}
+                  <View style={{
+                    width: 3, height: 18, borderRadius: 2,
+                    backgroundColor: step.accentColor,
+                    marginTop: 2, flexShrink: 0,
+                  }} />
+
+                  <View style={{ flex: 1 }}>
+                    {/* Option name — Inter SemiBold 600, 14sp, textPrimary */}
+                    <Text style={{
+                      fontFamily: fonts.interSemi,
+                      fontSize: 14,
+                      color: colors.textPrimary,
+                      marginBottom: 4,
+                    }}>
+                      {formatLabel(item._id)}
+                    </Text>
+                    {/* Option description — Inter Regular, 12sp, textMuted */}
+                    <Text style={{
+                      fontFamily: fonts.interRegular,
+                      fontSize: 12,
+                      color: colors.textMuted,
+                      lineHeight: 17,
+                    }}>
+                      {OPTION_DESCRIPTIONS[item._id] ?? ""}
+                    </Text>
+                  </View>
+
+                  {/* Arrow */}
+                  <Text style={{ fontSize: 16, color: colors.textMuted, marginTop: 1 }}>›</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+      </View>
     </View>
   );
 }
