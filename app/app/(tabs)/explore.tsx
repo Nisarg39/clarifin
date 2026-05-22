@@ -9,8 +9,9 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import { Layers, Search } from "lucide-react-native";
-import { colors, fonts, radius } from "@/constants/theme";
+import { colors, fonts, radius, appBackground } from "@/constants/theme";
 import { fetchInstruments } from "@/lib/api";
 import { ExploreFilters, Instrument } from "@/lib/types";
 import InstrumentCard from "@/components/instruments/InstrumentCard";
@@ -104,96 +105,103 @@ export default function ExploreScreen() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.bgApp }} edges={["top"]}>
-      <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 20 }}>
-        {/* Header */}
-        <View style={{ marginBottom: 16, marginTop: 0 }}>
-          <Text style={{ fontFamily: fonts.displayBold, fontSize: 32, color: colors.textPrimary, marginBottom: 4, letterSpacing: -1 }}>
-            Explore 🧭
-          </Text>
-          <Text style={{ fontFamily: fonts.interRegular, fontSize: 16, color: colors.textSecondary }}>
-            Browse all financial instruments
-          </Text>
-        </View>
-
-        {/* Search bar */}
-        <View style={{
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: colors.bgCard,
-          borderRadius: radius.md,
-          borderWidth: 1,
-          borderColor: colors.borderDefault,
-          paddingHorizontal: 12,
-          paddingVertical: 10,
-          marginBottom: 12,
-          gap: 8,
-        }}>
-          <Search size={16} color={colors.textMuted} />
-          <TextInput
-            placeholder="Search instruments..."
-            placeholderTextColor={colors.textMuted}
-            onChangeText={handleSearchChange}
-            style={{
-              flex: 1,
-              fontFamily: fonts.interRegular,
-              fontSize: 14,
-              color: colors.textPrimary,
-              padding: 0,
-            }}
-            returnKeyType="search"
-            clearButtonMode="while-editing"
-          />
-        </View>
-
-        {/* Filter pills */}
-        <FilterBar filters={filters} onChange={handleFilterChange} />
-
-        {/* List */}
-        {loading ? (
-          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <ActivityIndicator size="large" color={colors.primary} />
-          </View>
-        ) : error ? (
-          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <Text style={{ fontFamily: fonts.interRegular, fontSize: 14, color: colors.textMuted, textAlign: "center" }}>
-              {error}
+    <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
+      <LinearGradient
+        colors={appBackground.colors}
+        start={appBackground.start}
+        end={appBackground.end}
+        style={{ flex: 1 }}
+      >
+        <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 20 }}>
+          {/* Header */}
+          <View style={{ marginBottom: 16, marginTop: 0 }}>
+            <Text style={{ fontFamily: fonts.displayBold, fontSize: 32, color: colors.textPrimary, marginBottom: 4, letterSpacing: -1 }}>
+              Explore 🧭
+            </Text>
+            <Text style={{ fontFamily: fonts.interRegular, fontSize: 16, color: colors.textSecondary }}>
+              Browse all financial instruments
             </Text>
           </View>
-        ) : (
-          <FlatList
-              key={numColumns}
-              data={instruments}
-              numColumns={numColumns}
-              columnWrapperStyle={numColumns > 1 ? { gap: 16 } : undefined}
-              keyExtractor={(item) => item.instrument_id}
-              renderItem={({ item }) => (
-                <View style={{ flex: numColumns > 1 ? 1 : undefined }}>
-                  <InstrumentCard
-                    item={item}
-                    onPress={() => router.push(`/instrument/${item.instrument_id}`)}
-                  />
-                </View>
-              )}
-              onEndReached={handleEndReached}
-              onEndReachedThreshold={0.3}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ paddingBottom: 24, paddingTop: 4 }}
-              ListFooterComponent={
-                loadingMore ? (
-                  <ActivityIndicator size="small" color={colors.primary} style={{ marginVertical: 12 }} />
-                ) : null
-              }
-              ListEmptyComponent={
-                <View style={{ paddingTop: 60, alignItems: "center" }}>
-                  <Text style={{ fontFamily: fonts.interRegular, fontSize: 14, color: colors.textMuted }}>
-                    No instruments found
-                  </Text>
-                </View>
-              }
+
+          {/* Search bar */}
+          <View style={{
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: colors.bgCard,
+            borderRadius: radius.md,
+            borderWidth: 1,
+            borderColor: colors.borderDefault,
+            paddingHorizontal: 12,
+            paddingVertical: 10,
+            marginBottom: 12,
+            gap: 8,
+          }}>
+            <Search size={16} color={colors.textMuted} />
+            <TextInput
+              placeholder="Search instruments..."
+              placeholderTextColor={colors.textMuted}
+              onChangeText={handleSearchChange}
+              style={{
+                flex: 1,
+                fontFamily: fonts.interRegular,
+                fontSize: 14,
+                color: colors.textPrimary,
+                padding: 0,
+              }}
+              returnKeyType="search"
+              clearButtonMode="while-editing"
             />
-        )}
-      </View>
+          </View>
+
+          {/* Filter pills */}
+          <FilterBar filters={filters} onChange={handleFilterChange} />
+
+          {/* List */}
+          {loading ? (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+              <ActivityIndicator size="large" color={colors.primary} />
+            </View>
+          ) : error ? (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+              <Text style={{ fontFamily: fonts.interRegular, fontSize: 14, color: colors.textMuted, textAlign: "center" }}>
+                {error}
+              </Text>
+            </View>
+          ) : (
+            <FlatList
+                key={numColumns}
+                data={instruments}
+                numColumns={numColumns}
+                columnWrapperStyle={numColumns > 1 ? { gap: 16 } : undefined}
+                keyExtractor={(item) => item.instrument_id}
+                renderItem={({ item }) => (
+                  <View style={{ flex: numColumns > 1 ? 1 : undefined }}>
+                    <InstrumentCard
+                      item={item}
+                      onPress={() => router.push(`/instrument/${item.instrument_id}`)}
+                    />
+                  </View>
+                )}
+                onEndReached={handleEndReached}
+                onEndReachedThreshold={0.3}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: 24, paddingTop: 4 }}
+                ListFooterComponent={
+                  loadingMore ? (
+                    <ActivityIndicator size="small" color={colors.primary} style={{ marginVertical: 12 }} />
+                  ) : null
+                }
+                ListEmptyComponent={
+                  <View style={{ paddingTop: 60, alignItems: "center" }}>
+                    <Text style={{ fontFamily: fonts.interRegular, fontSize: 14, color: colors.textMuted }}>
+                      No instruments found
+                    </Text>
+                  </View>
+                }
+              />
+          )}
+        </View>
+      </LinearGradient>
     </SafeAreaView>
   );
 }

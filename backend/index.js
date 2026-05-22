@@ -6,7 +6,7 @@ const app = express();
 
 connectDB();
 
-app.use(cors({ origin: ['http://localhost:3001', 'http://localhost:8081'] }));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
