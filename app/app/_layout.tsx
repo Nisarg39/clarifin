@@ -1,7 +1,9 @@
 import "../global.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { LinearGradient } from "expo-linear-gradient";
 import * as SplashScreen from "expo-splash-screen";
 import {
   PlayfairDisplay_600SemiBold,
@@ -28,9 +30,12 @@ import {
   useFonts as useDMMonoFonts,
 } from "@expo-google-fonts/dm-mono";
 
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync().catch(() => {
+  /* Prevent errors on unsupporting platforms like Web */
+});
 
 export default function RootLayout() {
+  const [showSplash, setShowSplash] = useState(true);
   const [playfairLoaded] = usePlayfairFonts({ 
     PlayfairDisplay_600SemiBold,
     PlayfairDisplay_700Bold,
@@ -53,14 +58,39 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (fontsLoaded) {
-      const timer = setTimeout(async () => {
-        await SplashScreen.hideAsync();
-      }, 2000); // 2 seconds minimum splash screen duration
+      // Dismiss the native splash screen immediately to reveal the custom splash screen underneath
+      const dismissNativeSplash = async () => {
+        try {
+          await SplashScreen.hideAsync();
+        } catch (e) {
+          // Ignore error if platform doesn't support native splash
+        }
+      };
+      dismissNativeSplash();
+
+      // Show the custom JS splash screen for 2 seconds
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+      }, 2000); // 2 seconds splash screen duration
+      
       return () => clearTimeout(timer);
     }
   }, [fontsLoaded]);
 
   if (!fontsLoaded) return null;
+
+  if (showSplash) {
+    return (
+      <LinearGradient
+        colors={["#EBF4FF", "#F0F7FF", "#E8F2FF"]}
+        style={styles.splashContainer}
+      >
+        <StatusBar style="dark" backgroundColor="#EBF4FF" />
+        <Text style={styles.splashText}>Clarifin</Text>
+        <Text style={styles.splashSubText}>© 2026 Clarifin Inc. | Simplicity in Finance</Text>
+      </LinearGradient>
+    );
+  }
 
   return (
     <>
@@ -73,3 +103,24 @@ export default function RootLayout() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  splashContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  splashText: {
+    fontFamily: "PlayfairDisplay_900Black",
+    fontSize: 48,
+    color: "#030334",
+    letterSpacing: -1,
+  },
+  splashSubText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 11,
+    color: "#7A8BAA",
+    position: "absolute",
+    bottom: 40,
+  },
+});
