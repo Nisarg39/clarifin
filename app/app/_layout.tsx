@@ -52,7 +52,12 @@ export default function RootLayout() {
   const fontsLoaded = playfairLoaded && interLoaded && soraLoaded && monoLoaded;
 
   useEffect(() => {
-    if (fontsLoaded) SplashScreen.hideAsync();
+    if (fontsLoaded) {
+      const timer = setTimeout(async () => {
+        await SplashScreen.hideAsync();
+      }, 2000); // 2 seconds minimum splash screen duration
+      return () => clearTimeout(timer);
+    }
   }, [fontsLoaded]);
 
   if (!fontsLoaded) return null;
