@@ -16,6 +16,10 @@ expo-env.d.ts
 *.p8
 *.p12
 *.key
+*.keystore
+credentials.json
+keystore_backup.txt
+*.aab
 *.mobileprovision
 
 # Metro

@@ -20,6 +20,11 @@ android/.gradle/
 *.jks
 *.p12
 *.key
+*.keystore
+credentials.json
+keystore_backup.txt
+feature_graphic.png
+*.aab
 *.mobileprovision
 
 # Admin / Web builds

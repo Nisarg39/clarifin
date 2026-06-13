@@ -1,5 +1,7 @@
 # Privacy Policy for Clarifin
 
+https://nashtech.dev/clarifin-privacy-policy 
+
 *Last updated: May 28, 2026*
 
 This Privacy Policy describes how **Clarifin** ("we", "our", or "the App") collects, uses, and shares your personal information when you use our mobile application.
@@ -51,4 +53,4 @@ You have the right to request access to, correction of, or deletion of your pers
 
 ## 7. Contact Us
 
-If you have any questions or suggestions about this Privacy Policy, please contact us at: **your-email@nashtech.dev**
+If you have any questions or suggestions about this Privacy Policy, please contact us at: **[EMAIL_ADDRESS]**

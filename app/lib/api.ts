@@ -1,6 +1,9 @@
 import { BASEURL } from "@env";
 import { DashboardSummaryResponse, ExploreFilters, InstrumentDetailResponse, InstrumentsResponse } from "./types";
 
+const FALLBACK_URL = "https://clarifin.serveousercontent.com";
+const resolvedBaseUrl = BASEURL || FALLBACK_URL;
+
 export async function fetchInstruments(
   filters: ExploreFilters,
   page: number
@@ -17,19 +20,19 @@ export async function fetchInstruments(
   if (filters.suitable_for_80c !== null)
     params.set("suitable_for_80c", String(filters.suitable_for_80c));
 
-  const res = await fetch(`${BASEURL}/api/v1/user/instruments?${params}`);
+  const res = await fetch(`${resolvedBaseUrl}/api/v1/user/instruments?${params}`);
   if (!res.ok) throw new Error("Failed to fetch instruments");
   return res.json();
 }
 
 export async function fetchInstrumentDetail(id: string): Promise<InstrumentDetailResponse> {
-  const res = await fetch(`${BASEURL}/api/v1/user/instruments/${id}`);
+  const res = await fetch(`${resolvedBaseUrl}/api/v1/user/instruments/${id}`);
   if (!res.ok) throw new Error("Failed to fetch instrument detail");
   return res.json();
 }
 
 export async function fetchDashboardSummary(): Promise<DashboardSummaryResponse> {
-  const res = await fetch(`${BASEURL}/api/v1/user/dashboard`);
+  const res = await fetch(`${resolvedBaseUrl}/api/v1/user/dashboard`);
   if (!res.ok) throw new Error("Failed to fetch dashboard summary");
   return res.json();
 }

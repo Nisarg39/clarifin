@@ -1,0 +1,13 @@
+# EAS CLI ignore config
+# Respects all patterns but copies .env for build packaging
+
+node_modules/
+.expo/
+dist/
+web-build/
+android/app/build/
+android/.gradle/
+*.keystore
+credentials.json
+keystore_backup.txt
+*.aab

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Clarifin",
     "slug": "clarifin",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "scheme": "clarifin",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,7 +24,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.clarifin.app"
+      "package": "com.clarifin.app",
+      "versionCode": 4
     },
     "web": {
       "bundler": "metro",
@@ -33,6 +34,13 @@
     "plugins": [
       "expo-router",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "86cb53df-dda2-438f-a566-53ead140ef1d"
+      }
+    },
+    "owner": "nisarg39"
   }
 }
