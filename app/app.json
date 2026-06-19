@@ -2,7 +2,7 @@
   "expo": {
     "name": "Clarifin",
     "slug": "clarifin",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "scheme": "clarifin",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,7 +25,7 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.clarifin.app",
-      "versionCode": 4
+      "versionCode": 5
     },
     "web": {
       "bundler": "metro",

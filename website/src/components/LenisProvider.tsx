@@ -6,12 +6,9 @@ import Lenis from "lenis";
 export default function LenisProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: "vertical",
-      gestureOrientation: "vertical",
+      lerp: 0.15, // Higher lerp = faster, more responsive. Replaces the laggy fixed duration.
+      wheelMultiplier: 1.2, // Slightly faster wheel scroll speed
       smoothWheel: true,
-      wheelMultiplier: 1,
       touchMultiplier: 2,
     });
 
