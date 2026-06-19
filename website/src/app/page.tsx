@@ -360,7 +360,7 @@ export default function Home() {
         {/* 3D Bank Tower on the Left */}
         <div className="relative w-full md:w-1/2 h-[50vh] md:h-screen flex items-center justify-center">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-[var(--color-return-negative)] opacity-10 blur-[120px] pointer-events-none" />
-          <Canvas camera={{ position: [0, 0, 6], fov: 45 }} className="pointer-events-none md:pointer-events-auto">
+          <Canvas camera={{ position: [0, 0, 6], fov: 45 }} className="!pointer-events-none md:!pointer-events-auto">
             <ambientLight intensity={0.5} />
             <group scale={18} position={[0, -0.1, 0]}>
               <MazeBankTowerModel />
@@ -408,7 +408,7 @@ export default function Home() {
         {/* 3D Money Tree in the Background */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-4xl h-[90%] rounded-full bg-[var(--color-return-positive)] opacity-15 blur-[150px] pointer-events-none" />
-          <Canvas gl={{ localClippingEnabled: true }} camera={{ position: [0, 3.5, 7], fov: 45 }} className="pointer-events-none md:pointer-events-auto">
+          <Canvas gl={{ localClippingEnabled: true }} camera={{ position: [0, 3.5, 7], fov: 45 }} className="!pointer-events-none md:!pointer-events-auto">
             <ambientLight intensity={0.4} />
             <directionalLight position={[5, 5, 5]} intensity={1.5} />
             <directionalLight position={[-5, 5, -5]} intensity={0.5} />
@@ -471,7 +471,7 @@ export default function Home() {
           {/* Subtle magenta gradient glow behind the model */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full bg-fuchsia-500 opacity-15 blur-[120px] pointer-events-none" />
           
-          <Canvas camera={{ position: [0, -0.2, 7], fov: 60 }} className="w-full h-full pointer-events-none md:pointer-events-auto">
+          <Canvas camera={{ position: [0, -0.2, 7], fov: 60 }} className="w-full h-full !pointer-events-none md:!pointer-events-auto">
             <ambientLight intensity={0.4} />
             <directionalLight position={[5, 5, 5]} intensity={1.5} />
             <directionalLight position={[-5, 5, -5]} intensity={0.5} />
@@ -575,7 +575,7 @@ export default function Home() {
           {/* Subtle orange gradient glow behind the clock */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] max-w-4xl h-[70%] rounded-full bg-orange-600 opacity-20 blur-[120px] pointer-events-none" />
           
-          <Canvas camera={{ position: [2.5, -1.8, 3.5], fov: 60 }} className="w-full h-full pointer-events-none md:pointer-events-auto">
+          <Canvas camera={{ position: [2.5, -1.8, 3.5], fov: 60 }} className="w-full h-full !pointer-events-none md:!pointer-events-auto">
             <ambientLight intensity={0.8} />
             <directionalLight position={[5, 5, 5]} intensity={3} color="#F97316" />
             <directionalLight position={[-5, 5, -5]} intensity={0.5} />
