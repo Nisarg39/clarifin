@@ -9,85 +9,92 @@ export const colors = {
   negativeStrong: "#DC2626",
   warning: "#F59E0B",
 
-  bgScreen: "#F4F8FE",
-  bgCard: "#FFFFFF",
-  bgInput: "#F4F8FE",
-  bgNavy: "#030334",
-  bgBlueGradient: ["#70AAE4", "#4A8ED4"] as const,
+  bgScreen: "#01010A", // Dark Mode Native
+  bgCard: "#12121A", // Dark Mode Surface
+  bgInput: "#01010A",
+  bgNavy: "#12121A",
+  bgBlueGradient: ["#12121A", "#01010A"] as const,
 
-  borderLight: "rgba(112,170,228,0.15)",
-  borderDefault: "#C5DCEF",
+  borderLight: "rgba(255,255,255,0.05)",
+  borderDefault: "rgba(255,255,255,0.1)",
   borderFocus: "#70AAE4",
 
-  textPrimary: "#030334",
-  textSecondary: "#4A6A8A",
-  textMuted: "#7A8BAA",
+  textPrimary: "#FFFFFF",
+  textSecondary: "#94A3B8",
+  textMuted: "#94A3B8",
   textOnDark: "#FFFFFF",
   textOnYellow: "#030334",
   textSkyLabel: "#70AAE4",
 
-  // compat aliases — old token names used in screens
-  primary: "#030334",   // → navy
-  bgApp: "#F4F8FE",     // → bgScreen (gradient not usable as RN backgroundColor)
-  bgDark: "#030334",    // → bgNavy
+  // compat aliases
+  primary: "#70AAE4", // Changed to skyBlue for better dark mode visibility
+  bgApp: "#01010A",
+  bgDark: "#12121A",
 } as const;
 
 export const shadows = {
-  level1: {
-    shadowColor: "#030334",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    elevation: 1,
-  },
-  level2: {
-    shadowColor: "#030334",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
+  elevationDark: {
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.6,
     shadowRadius: 20,
+    elevation: 10,
+  },
+  level1: {
+    shadowColor: "#70AAE4",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.15,
+    shadowRadius: 15,
     elevation: 3,
   },
+  level2: {
+    shadowColor: "#70AAE4", // Aurora Glow
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 30,
+    elevation: 5,
+  },
   level3: {
-    shadowColor: "#030334",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.12,
-    shadowRadius: 32,
+    shadowColor: "#70AAE4",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.35,
+    shadowRadius: 40,
     elevation: 6,
   },
   yellowCard: {
     shadowColor: "#F5F27A",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.45,
-    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.30,
+    shadowRadius: 30,
     elevation: 5,
   },
   navyCard: {
-    shadowColor: "#030334",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.30,
-    shadowRadius: 24,
+    shadowColor: "#70AAE4",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.20,
+    shadowRadius: 30,
     elevation: 6,
   },
   blueCard: {
     shadowColor: "#70AAE4",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.40,
-    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.35,
+    shadowRadius: 30,
     elevation: 5,
   },
   button: {
-    shadowColor: "#030334",
-    shadowOffset: { width: 0, height: 4 },
+    shadowColor: "#70AAE4",
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.30,
-    shadowRadius: 16,
+    shadowRadius: 25,
     elevation: 5,
   },
 } as const;
 
 export const fonts = {
-  display: "PlayfairDisplay_900Black",
-  displayBold: "PlayfairDisplay_700Bold",
-  displaySemi: "PlayfairDisplay_600SemiBold",
+  display: "Inter_700Bold",
+  displayBold: "Inter_700Bold",
+  displaySemi: "Inter_600SemiBold",
   interLight: "Inter_300Light",
   interRegular: "Inter_400Regular",
   interMedium: "Inter_500Medium",
@@ -95,9 +102,9 @@ export const fonts = {
   interBold: "Inter_700Bold",
   monoRegular: "DMMono_400Regular",
   monoMedium: "DMMono_500Medium",
-  // compat aliases
-  soraBold: "Sora_700Bold",
-  soraSemi: "Sora_600SemiBold",
+  // compat aliases - shifted to Inter
+  soraBold: "Inter_700Bold",
+  soraSemi: "Inter_600SemiBold",
 } as const;
 
 export const radius = {
@@ -106,7 +113,7 @@ export const radius = {
   md: 14,
   lg: 20,
   xl: 26,
-  "2xl": 32,
+  "2xl": 32, // Soft Geometry
   full: 9999,
 } as const;
 
@@ -131,9 +138,9 @@ export function getReturnColor(value: number): string {
 }
 
 export const appBackground = {
-  colors: ["#EBF4FF", "#F0F7FF", "#E8F2FF"] as const,
-  start: { x: 0.1, y: 0 },
-  end: { x: 0.9, y: 1 },
+  colors: ["#01010A", "#01010A", "#01010A"] as const,
+  start: { x: 0.5, y: 0 },
+  end: { x: 0.5, y: 1 },
 };
 
 export function formatReturn(value: number): string {
@@ -145,10 +152,10 @@ export const RISK_STYLES: Record<
   string,
   { bg: string; text: string; border: string; label: string }
 > = {
-  low: { bg: "#BBF7D0", text: "#14532D", border: "#86EFAC", label: "Low" },
-  low_to_moderate: { bg: "#A7F3D0", text: "#064E3B", border: "#6EE7B7", label: "Low–Moderate" },
-  moderate: { bg: "#FEF08A", text: "#713F12", border: "#FDE047", label: "Moderate" },
-  moderately_high: { bg: "#FED7AA", text: "#7C2D12", border: "#FDBA8C", label: "Mod. High" },
-  high: { bg: "#FECACA", text: "#7F1D1D", border: "#FCA5A5", label: "High" },
-  very_high: { bg: "#FECDD3", text: "#881337", border: "#FDA4AF", label: "Very High" },
+  low: { bg: "rgba(187, 247, 208, 0.15)", text: "#86EFAC", border: "rgba(134, 239, 172, 0.3)", label: "Low" },
+  low_to_moderate: { bg: "rgba(167, 243, 208, 0.15)", text: "#6EE7B7", border: "rgba(110, 231, 183, 0.3)", label: "Low–Moderate" },
+  moderate: { bg: "rgba(254, 240, 138, 0.15)", text: "#FDE047", border: "rgba(253, 224, 71, 0.3)", label: "Moderate" },
+  moderately_high: { bg: "rgba(254, 215, 170, 0.15)", text: "#FDBA8C", border: "rgba(253, 186, 140, 0.3)", label: "Mod. High" },
+  high: { bg: "rgba(254, 202, 202, 0.15)", text: "#FCA5A5", border: "rgba(252, 165, 165, 0.3)", label: "High" },
+  very_high: { bg: "rgba(254, 205, 211, 0.15)", text: "#FDA4AF", border: "rgba(253, 164, 175, 0.3)", label: "Very High" },
 };

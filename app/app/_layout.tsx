@@ -5,6 +5,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
 import * as SplashScreen from "expo-splash-screen";
+import * as SystemUI from "expo-system-ui";
 import {
   PlayfairDisplay_600SemiBold,
   PlayfairDisplay_700Bold,
@@ -34,6 +35,8 @@ SplashScreen.preventAutoHideAsync().catch(() => {
   /* Prevent errors on unsupporting platforms like Web */
 });
 
+import { DarkTheme, ThemeProvider } from "@react-navigation/native";
+
 export default function RootLayout() {
   const [showSplash, setShowSplash] = useState(true);
   const [playfairLoaded] = usePlayfairFonts({ 
@@ -58,20 +61,17 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (fontsLoaded) {
-      // Dismiss the native splash screen immediately to reveal the custom splash screen underneath
       const dismissNativeSplash = async () => {
         try {
           await SplashScreen.hideAsync();
-        } catch (e) {
-          // Ignore error if platform doesn't support native splash
-        }
+        } catch (e) {}
       };
       dismissNativeSplash();
 
-      // Show the custom JS splash screen for 2 seconds
       const timer = setTimeout(() => {
         setShowSplash(false);
-      }, 2000); // 2 seconds splash screen duration
+        SystemUI.setBackgroundColorAsync("#01010A"); // Force root iOS window to dark
+      }, 2000);
       
       return () => clearTimeout(timer);
     }
@@ -79,28 +79,30 @@ export default function RootLayout() {
 
   if (!fontsLoaded) return null;
 
-  if (showSplash) {
-    return (
-      <LinearGradient
-        colors={["#EBF4FF", "#F0F7FF", "#E8F2FF"]}
-        style={styles.splashContainer}
-      >
-        <StatusBar style="dark" backgroundColor="#EBF4FF" />
-        <Text style={styles.splashText}>Clarifin</Text>
-        <Text style={styles.splashSubText}>© 2026 Clarifin Inc. | Simplicity in Finance</Text>
-      </LinearGradient>
-    );
-  }
-
   return (
-    <>
-      <StatusBar style="dark" backgroundColor="#EBF4FF" />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="instrument/[id]" />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </>
+    <View style={{ flex: 1, backgroundColor: showSplash ? "#EBF4FF" : "#01010A" }}>
+      <StatusBar 
+        style={showSplash ? "dark" : "light"} 
+        backgroundColor={showSplash ? "#EBF4FF" : "#01010A"} 
+      />
+      {showSplash ? (
+        <LinearGradient
+          colors={["#EBF4FF", "#F0F7FF", "#E8F2FF"]}
+          style={styles.splashContainer}
+        >
+          <Text style={styles.splashText}>Clarifin</Text>
+          <Text style={styles.splashSubText}>© 2026 Clarifin Inc. | Simplicity in Finance</Text>
+        </LinearGradient>
+      ) : (
+        <ThemeProvider value={DarkTheme}>
+          <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#01010A' } }}>
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="instrument/[id]" />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </ThemeProvider>
+      )}
+    </View>
   );
 }
 

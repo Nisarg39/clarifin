@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { colors, fonts, radius, shadows, RISK_STYLES, getReturnColor } from "@/constants/theme";
 import { Instrument } from "@/lib/types";
+import { CheckCircle2 } from "lucide-react-native";
 
 const HORIZON_LABEL: Record<string, string> = {
   short: "Short",
@@ -31,10 +32,11 @@ function formatType(type: string): string {
 
 interface Props {
   item: Instrument;
+  selected?: boolean;
   onPress: () => void;
 }
 
-export default function InstrumentCard({ item, onPress }: Props) {
+export default function InstrumentCard({ item, selected = false, onPress }: Props) {
   const risk = RISK_STYLES[item.risk_level] ?? {
     bg: colors.bgCard,
     text: colors.textSecondary,
@@ -46,21 +48,34 @@ export default function InstrumentCard({ item, onPress }: Props) {
   const returnColor = getReturnColor(avgReturn || item.indicative_return_min_pct_pa || 0);
 
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.9}
-      style={{
-        backgroundColor: colors.bgCard,
+    <View style={{
+      marginBottom: 16,
+      shadowColor: "rgba(255, 255, 255, 0.03)",
+      shadowOffset: { width: -5, height: -5 },
+      shadowOpacity: 1,
+      shadowRadius: 10,
+      borderRadius: radius.xl,
+    }}>
+      <View style={{
+        shadowColor: "rgba(0, 0, 0, 0.5)",
+        shadowOffset: { width: 5, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 10,
         borderRadius: radius.xl,
-        borderWidth: 1,
-        borderColor: colors.borderLight,
-        padding: 20,
-        marginBottom: 16,
-        ...shadows.level2,
-      }}
-    >
-      {/* Risk Badge (Top Right) */}
-      <View style={{ position: "absolute", top: 16, right: 16, zIndex: 1 }}>
+      }}>
+        <TouchableOpacity
+          onPress={onPress}
+          activeOpacity={0.9}
+          style={{
+            backgroundColor: selected ? "rgba(112, 170, 228, 0.05)" : colors.bgCard,
+            borderRadius: radius.xl,
+            borderWidth: 1,
+            borderColor: selected ? colors.primary : "rgba(255, 255, 255, 0.05)",
+            padding: 20,
+          }}
+        >
+      {/* Top Right Badges */}
+      <View style={{ position: "absolute", top: 16, right: 16, zIndex: 1, flexDirection: "row", alignItems: "center", gap: 8 }}>
         <View style={{
           backgroundColor: risk.bg,
           paddingHorizontal: 10,
@@ -73,6 +88,9 @@ export default function InstrumentCard({ item, onPress }: Props) {
             {risk.label}
           </Text>
         </View>
+        {selected && (
+          <CheckCircle2 size={20} color={colors.primary} fill="rgba(112, 170, 228, 0.2)" />
+        )}
       </View>
 
       {/* Header Info */}
@@ -81,7 +99,7 @@ export default function InstrumentCard({ item, onPress }: Props) {
           style={{
             fontFamily: fonts.soraBold,
             fontSize: 19,
-            color: colors.navy,
+            color: colors.textPrimary,
             lineHeight: 26,
             marginBottom: 8,
           }}
@@ -132,7 +150,7 @@ export default function InstrumentCard({ item, onPress }: Props) {
           <Text style={{ fontFamily: fonts.interRegular, fontSize: 11, color: colors.textMuted, marginBottom: 4 }}>
             Liquidity
           </Text>
-          <Text style={{ fontFamily: fonts.interSemi, fontSize: 14, color: colors.navy }}>
+          <Text style={{ fontFamily: fonts.interSemi, fontSize: 14, color: colors.textPrimary }}>
             {LIQUIDITY_LABEL[item.liquidity_level] ?? item.liquidity_level}
           </Text>
         </View>
@@ -141,11 +159,13 @@ export default function InstrumentCard({ item, onPress }: Props) {
           <Text style={{ fontFamily: fonts.interRegular, fontSize: 11, color: colors.textMuted, marginBottom: 4 }}>
             Horizon
           </Text>
-          <Text style={{ fontFamily: fonts.interSemi, fontSize: 14, color: colors.navy }}>
+          <Text style={{ fontFamily: fonts.interSemi, fontSize: 14, color: colors.textPrimary }}>
             {HORIZON_LABEL[item.recommended_horizon] ?? item.recommended_horizon}
           </Text>
         </View>
       </View>
     </TouchableOpacity>
+  </View>
+</View>
   );
 }

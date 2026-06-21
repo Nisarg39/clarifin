@@ -43,13 +43,12 @@ function ClarifInTabBar({ state, navigation }: BottomTabBarProps) {
               justifyContent: "center",
               ...(isFocused
                 ? {
-                    backgroundColor: colors.bgDark,
+                    backgroundColor: "rgba(255,255,255,0.1)",
                     borderRadius: radius.full,
                     paddingHorizontal: 20,
                     paddingVertical: 10,
                     flexDirection: "row",
                     gap: 6,
-                    ...shadows.darkButton,
                   }
                 : {
                     paddingHorizontal: 12,
@@ -80,13 +79,18 @@ function ClarifInTabBar({ state, navigation }: BottomTabBarProps) {
   );
 }
 
+import { StatusBar } from "expo-status-bar";
+
 export default function TabsLayout() {
   return (
-    <Tabs tabBar={(props) => <ClarifInTabBar {...props} />} screenOptions={{ headerShown: false }}>
-      <Tabs.Screen name="index" />
-      <Tabs.Screen name="explore" />
-      <Tabs.Screen name="compare" />
-      <Tabs.Screen name="chat" />
-    </Tabs>
+    <>
+      <StatusBar style="light" />
+      <Tabs tabBar={(props) => <ClarifInTabBar {...props} />} screenOptions={{ headerShown: false }}>
+        <Tabs.Screen name="index" />
+        <Tabs.Screen name="explore" />
+        <Tabs.Screen name="compare" />
+        <Tabs.Screen name="chat" />
+      </Tabs>
+    </>
   );
 }

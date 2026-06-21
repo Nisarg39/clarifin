@@ -145,7 +145,7 @@ export default function InstrumentDetailScreen() {
 
         {loading ? (
           <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <ActivityIndicator size="large" color={colors.navy} />
+            <ActivityIndicator size="large" color={colors.skyBlue} />
           </View>
         ) : error ? (
           <View style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 24 }}>
@@ -154,9 +154,9 @@ export default function InstrumentDetailScreen() {
             </Text>
             <TouchableOpacity
               onPress={() => router.back()}
-              style={{ backgroundColor: colors.navy, borderRadius: radius.full, paddingHorizontal: 24, paddingVertical: 12, ...shadows.level2 }}
+              style={{ backgroundColor: colors.textPrimary, borderRadius: radius.full, paddingHorizontal: 24, paddingVertical: 12 }}
             >
-              <Text style={{ fontFamily: fonts.interSemi, fontSize: 14, color: "#FFFFFF" }}>Go back</Text>
+              <Text style={{ fontFamily: fonts.interSemi, fontSize: 14, color: colors.bgScreen }}>Go back</Text>
             </TouchableOpacity>
           </View>
         ) : instrument && risk ? (
@@ -179,7 +179,7 @@ export default function InstrumentDetailScreen() {
                 <Text style={{
                   fontFamily: fonts.display,
                   fontSize: 30,
-                  color: colors.navy,
+                  color: colors.textPrimary,
                   letterSpacing: -1,
                   lineHeight: 36,
                   marginBottom: 12,
@@ -449,7 +449,7 @@ export default function InstrumentDetailScreen() {
                           paddingHorizontal: 14,
                           paddingVertical: 6,
                         }}>
-                          <Text style={{ fontFamily: fonts.interMedium, fontSize: 12, color: colors.navy }}>
+                          <Text style={{ fontFamily: fonts.interMedium, fontSize: 12, color: colors.textPrimary }}>
                             {GOAL_LABEL[tag] ?? tag}
                           </Text>
                         </View>
@@ -461,7 +461,7 @@ export default function InstrumentDetailScreen() {
                       <Text style={{ fontFamily: fonts.interRegular, fontSize: 13, color: colors.textSecondary }}>
                         {"Ideal Age: "}
                       </Text>
-                      <Text style={{ fontFamily: fonts.interSemi, fontSize: 13, color: colors.navy }}>
+                      <Text style={{ fontFamily: fonts.interSemi, fontSize: 13, color: colors.textPrimary }}>
                         {instrument.ideal_age_min !== null && instrument.ideal_age_max !== null
                           ? `${instrument.ideal_age_min}–${instrument.ideal_age_max} yrs`
                           : instrument.ideal_age_min !== null
@@ -516,7 +516,7 @@ export default function InstrumentDetailScreen() {
                   <Text style={SECTION_LABEL}>What Makes It Special</Text>
                   {instrument.special_features.map((f, i) => (
                     <View key={i} style={{ flexDirection: "row", gap: 10, marginBottom: 10 }}>
-                      <Text style={{ fontFamily: fonts.interSemi, fontSize: 15, color: colors.navy }}>•</Text>
+                      <Text style={{ fontFamily: fonts.interSemi, fontSize: 15, color: colors.textPrimary }}>•</Text>
                       <Text style={{ flex: 1, fontFamily: fonts.interRegular, fontSize: 15, color: colors.textSecondary, lineHeight: 24 }}>
                         {f}
                       </Text>

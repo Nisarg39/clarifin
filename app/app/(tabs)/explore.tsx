@@ -147,7 +147,8 @@ export default function ExploreScreen() {
                 fontSize: 14,
                 color: colors.textPrimary,
                 padding: 0,
-              }}
+                outlineStyle: "none",
+              } as any}
               returnKeyType="search"
               clearButtonMode="while-editing"
             />

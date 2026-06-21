@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, useWindowD
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { colors, fonts, shadows, appBackground } from "@/constants/theme";
+import { colors, fonts, shadows, appBackground, radius } from "@/constants/theme";
 import { fetchDashboardSummary } from "@/lib/api";
 import { DashboardSummaryResponse, DashboardStat } from "@/lib/types";
 
@@ -132,7 +132,7 @@ export default function HomeScreen() {
           showsVerticalScrollIndicator={false}
         >
           {/* Header */}
-          <View style={{ marginBottom: 28 }}>
+          <View style={{ marginBottom: 24, marginTop: 0 }}>
             <Text style={{ fontFamily: fonts.displayBold, fontSize: 32, color: colors.textPrimary, marginBottom: 4, letterSpacing: -1 }}>
               Welcome back 👋
             </Text>
@@ -286,127 +286,153 @@ function MarketInsightTicker({ totalInstruments, lastCreatedAt, marketLinkedPct,
 // ─── IntroSection ───────────────────────────────────────────────────────────
 
 function IntroSection({ isDesktop }: { isDesktop: boolean }) {
+  const cardStyle = {
+    borderRadius: radius["2xl"],
+    padding: 32,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.05)",
+  };
+
   return (
-    <View style={{ marginBottom: 32, gap: 12, flexDirection: isDesktop ? "row" : "column", alignItems: isDesktop ? "flex-start" : "stretch" }}>
+    <View style={{ marginBottom: 32, gap: 20, flexDirection: isDesktop ? "row" : "column", alignItems: isDesktop ? "flex-start" : "stretch" }}>
 
       {/* Deep Blue brand card — about Clarifin */}
       <View style={{
         flex: isDesktop ? 1 : undefined,
-        backgroundColor: "#4A8ED4", // Deeper, more saturated brand blue
-        borderRadius: 20,
-        padding: 20,
-        ...shadows.level2,
-        elevation: 5,
+        shadowColor: "rgba(255, 255, 255, 0.03)",
+        shadowOffset: { width: -5, height: -5 },
+        shadowOpacity: 1,
+        shadowRadius: 10,
+        borderRadius: radius["2xl"],
       }}>
-        <View>
-            <Text style={{
-              fontFamily: fonts.interBold,
-              fontSize: 11,
-              color: colors.textOnDark,
-              opacity: 0.65,
-              textTransform: "uppercase",
-              letterSpacing: 1.8,
-              marginBottom: 10,
-            }}>
-              About Clarifin
-            </Text>
-            <Text style={{
-              fontFamily: fonts.displayBold,
-              fontSize: 28,
-              color: colors.textOnDark,
-              letterSpacing: -1,
-              lineHeight: 32,
-              marginBottom: 10,
-            }}>
-              Clarity in Finance
-            </Text>
-            <Text style={{
-              fontFamily: fonts.interRegular,
-              fontSize: 13,
-              color: colors.textOnDark,
-              opacity: 0.85,
-              lineHeight: 20,
-              marginBottom: 16,
-            }}>
-              Clarifin is an investment education platform. We help you understand what financial instruments exist in India — how they work, what they involve, and who typically uses them.
-            </Text>
-            {/* Badges */}
-            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-              {["Education only", "Not SEBI-registered", "No buy/sell advice"].map((label) => (
-                <View key={label} style={{
-                  backgroundColor: "rgba(255,255,255,0.20)",
-                  borderRadius: 9999,
-                  paddingHorizontal: 10,
-                  paddingVertical: 4,
-                }}>
-                  <Text style={{ fontFamily: fonts.interSemi, fontSize: 11, color: colors.textOnDark, letterSpacing: 0.2 }}>
-                    {label}
-                  </Text>
-                </View>
-              ))}
+        <View style={{
+          shadowColor: "rgba(0, 0, 0, 0.5)",
+          shadowOffset: { width: 5, height: 5 },
+          shadowOpacity: 1,
+          shadowRadius: 10,
+          borderRadius: radius["2xl"],
+        }}>
+          <LinearGradient
+            colors={["#12121A", "#08080F"]}
+            style={cardStyle}>
+            <View>
+              <Text style={{
+                fontFamily: fonts.interBold,
+                fontSize: 11,
+                color: colors.textOnDark,
+                opacity: 0.65,
+                textTransform: "uppercase",
+                letterSpacing: 1.8,
+                marginBottom: 10,
+              }}>
+                About Clarifin
+              </Text>
+              <Text style={{
+                fontFamily: fonts.displayBold,
+                fontSize: 32,
+                color: colors.skyBlue,
+                letterSpacing: -1,
+                lineHeight: 36,
+                marginBottom: 10,
+              }}>
+                Clarity in Finance
+              </Text>
+              <Text style={{
+                fontFamily: fonts.interRegular,
+                fontSize: 14,
+                color: colors.textSecondary,
+                lineHeight: 22,
+                marginBottom: 16,
+              }}>
+                Clarifin is an investment education platform. We help you understand what financial instruments exist in India — how they work, what they involve, and who typically uses them.
+              </Text>
+              {/* Badges */}
+              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+                {["Education only", "Not SEBI-registered", "No buy/sell advice"].map((label) => (
+                  <View key={label} style={{
+                    backgroundColor: "rgba(255,255,255,0.08)",
+                    borderRadius: 9999,
+                    paddingHorizontal: 10,
+                    paddingVertical: 4,
+                  }}>
+                    <Text style={{ fontFamily: fonts.interSemi, fontSize: 11, color: colors.textOnDark, letterSpacing: 0.2 }}>
+                      {label}
+                    </Text>
+                  </View>
+                ))}
+              </View>
             </View>
-          </View>
+          </LinearGradient>
+        </View>
       </View>
 
       {/* Instrument Defined card — matched to About Clarifin style and color */}
       <View style={{
         flex: isDesktop ? 1 : undefined,
-        backgroundColor: "#F5F27A",
-        borderRadius: 20,
-        padding: 20,
-        shadowColor: "#F5F27A",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.45,
-        shadowRadius: 20,
-        elevation: 5,
+        shadowColor: "rgba(255, 255, 255, 0.03)",
+        shadowOffset: { width: -5, height: -5 },
+        shadowOpacity: 1,
+        shadowRadius: 10,
+        borderRadius: radius["2xl"],
       }}>
-        <View>
-          <Text style={{
-            fontFamily: fonts.interBold,
-            fontSize: 11,
-            color: colors.textPrimary,
-            opacity: 0.55,
-            textTransform: "uppercase",
-            letterSpacing: 1.8,
-            marginBottom: 10,
-          }}>
-            Instrument — Defined
-          </Text>
-          <Text style={{
-            fontFamily: fonts.displayBold,
-            fontSize: 28,
-            color: colors.textPrimary,
-            letterSpacing: -1,
-            lineHeight: 32,
-            marginBottom: 10,
-          }}>
-            What exactly is an "instrument"?
-          </Text>
-          <Text style={{
-            fontFamily: fonts.interRegular,
-            fontSize: 13,
-            color: colors.textPrimary,
-            opacity: 0.75,
-            lineHeight: 20,
-            marginBottom: 16,
-          }}>
-            Simply put, an instrument is any "container" where you put your money to help it grow. Whether it's a bank deposit or a piece of gold, they are all just different tools to build your future wealth.
-          </Text>
-          {/* Badges */}
-          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-            {["FDs", "Bonds", "Stocks", "Gold", "REITs"].map((label) => (
-              <View key={label} style={{
-                backgroundColor: "rgba(3,3,52,0.10)",
-                borderRadius: 9999,
-                paddingHorizontal: 10,
-                paddingVertical: 4,
+        <View style={{
+          shadowColor: "rgba(0, 0, 0, 0.5)",
+          shadowOffset: { width: 5, height: 5 },
+          shadowOpacity: 1,
+          shadowRadius: 10,
+          borderRadius: radius["2xl"],
+        }}>
+          <LinearGradient
+            colors={["#12121A", "#08080F"]}
+            style={cardStyle}>
+            <View>
+              <Text style={{
+                fontFamily: fonts.interBold,
+                fontSize: 11,
+                color: colors.textPrimary,
+                opacity: 0.55,
+                textTransform: "uppercase",
+                letterSpacing: 1.8,
+                marginBottom: 10,
               }}>
-                <Text style={{ fontFamily: fonts.interSemi, fontSize: 11, color: colors.textPrimary, letterSpacing: 0.2 }}>
-                  {label}
-                </Text>
+                Instrument — Defined
+              </Text>
+              <Text style={{
+                fontFamily: fonts.displayBold,
+                fontSize: 32,
+                color: colors.accent,
+                letterSpacing: -1,
+                lineHeight: 36,
+                marginBottom: 10,
+              }}>
+                What exactly is an "instrument"?
+              </Text>
+              <Text style={{
+                fontFamily: fonts.interRegular,
+                fontSize: 14,
+                color: colors.textSecondary,
+                lineHeight: 22,
+                marginBottom: 16,
+              }}>
+                Simply put, an instrument is any "container" where you put your money to help it grow. Whether it's a bank deposit or a piece of gold, they are all just different tools to build your future wealth.
+              </Text>
+              {/* Badges */}
+              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+                {["FDs", "Bonds", "Stocks", "Gold", "REITs"].map((label) => (
+                  <View key={label} style={{
+                    backgroundColor: "rgba(255,255,255,0.08)",
+                    borderRadius: 9999,
+                    paddingHorizontal: 10,
+                    paddingVertical: 4,
+                  }}>
+                    <Text style={{ fontFamily: fonts.interSemi, fontSize: 11, color: colors.textPrimary, letterSpacing: 0.2 }}>
+                      {label}
+                    </Text>
+                  </View>
+                ))}
               </View>
-            ))}
-          </View>
+            </View>
+          </LinearGradient>
         </View>
       </View>
 
@@ -434,9 +460,8 @@ function LearningStep({ step, isLast, isDesktop, onPress }: LearningStepProps) {
           width: 32, height: 32, borderRadius: 16,
           backgroundColor: colors.textPrimary,
           alignItems: "center", justifyContent: "center",
-          ...shadows.level2,
         }}>
-          <Text style={{ fontFamily: fonts.interBold, fontSize: 13, color: "#fff" }}>
+          <Text style={{ fontFamily: fonts.interBold, fontSize: 13, color: colors.navy }}>
             {step.stepNumber}
           </Text>
         </View>
@@ -471,63 +496,79 @@ function LearningStep({ step, isLast, isDesktop, onPress }: LearningStepProps) {
           {step.description}
         </Text>
 
-        {/* Options — white card, shadow Level 2, radius-lg 20px, border borderLight */}
+        {/* Options — dark mode floating card */}
         <View style={{
-          backgroundColor: colors.bgCard,
-          borderRadius: 20,
-          borderWidth: 1,
-          borderColor: colors.borderLight,
-          overflow: "hidden",
-          ...shadows.level2,
+          shadowColor: "rgba(255, 255, 255, 0.03)",
+          shadowOffset: { width: -5, height: -5 },
+          shadowOpacity: 1,
+          shadowRadius: 10,
+          borderRadius: radius["2xl"],
         }}>
-          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-            {step.data.map((item) => (
-              <TouchableOpacity
-                key={item._id}
-                activeOpacity={0.6}
-                onPress={() => onPress(step.filterKey, item._id)}
-                style={{
-                  width: colWidth,
-                  padding: 16,
-                  borderBottomWidth: 1,
-                  borderRightWidth: 1,
-                  borderColor: colors.borderLight,
-                }}
-              >
-                <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 10 }}>
-                  {/* Accent bar */}
-                  <View style={{
-                    width: 3, height: 18, borderRadius: 2,
-                    backgroundColor: step.accentColor,
-                    marginTop: 2, flexShrink: 0,
-                  }} />
+          <View style={{
+            shadowColor: "rgba(0, 0, 0, 0.5)",
+            shadowOffset: { width: 5, height: 5 },
+            shadowOpacity: 1,
+            shadowRadius: 10,
+            borderRadius: radius["2xl"],
+          }}>
+            <LinearGradient
+              colors={["#12121A", "#08080F"]}
+              style={{
+                borderRadius: radius["2xl"],
+                borderWidth: 1,
+                borderColor: "rgba(255, 255, 255, 0.05)",
+                overflow: "hidden",
+              }}>
+              <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+                {step.data.map((item) => (
+                  <TouchableOpacity
+                    key={item._id}
+                    activeOpacity={0.6}
+                    onPress={() => onPress(step.filterKey, item._id)}
+                    style={{
+                      width: colWidth,
+                      padding: 16,
+                      borderBottomWidth: 1,
+                      borderRightWidth: 1,
+                      borderColor: "rgba(255, 255, 255, 0.05)",
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 10 }}>
+                      {/* Accent bar */}
+                      <View style={{
+                        width: 3, height: 18, borderRadius: 2,
+                        backgroundColor: step.accentColor,
+                        marginTop: 2, flexShrink: 0,
+                      }} />
 
-                  <View style={{ flex: 1 }}>
-                    {/* Option name — Inter SemiBold 600, 14sp, textPrimary */}
-                    <Text style={{
-                      fontFamily: fonts.interSemi,
-                      fontSize: 14,
-                      color: colors.textPrimary,
-                      marginBottom: 4,
-                    }}>
-                      {formatLabel(item._id)}
-                    </Text>
-                    {/* Option description — Inter Regular, 12sp, textMuted */}
-                    <Text style={{
-                      fontFamily: fonts.interRegular,
-                      fontSize: 12,
-                      color: colors.textMuted,
-                      lineHeight: 17,
-                    }}>
-                      {OPTION_DESCRIPTIONS[item._id] ?? ""}
-                    </Text>
-                  </View>
+                      <View style={{ flex: 1 }}>
+                        {/* Option name — Inter SemiBold 600, 14sp, textPrimary */}
+                        <Text style={{
+                          fontFamily: fonts.interSemi,
+                          fontSize: 14,
+                          color: colors.textPrimary,
+                          marginBottom: 4,
+                        }}>
+                          {formatLabel(item._id)}
+                        </Text>
+                        {/* Option description — Inter Regular, 12sp, textMuted */}
+                        <Text style={{
+                          fontFamily: fonts.interRegular,
+                          fontSize: 12,
+                          color: colors.textMuted,
+                          lineHeight: 17,
+                        }}>
+                          {OPTION_DESCRIPTIONS[item._id] ?? ""}
+                        </Text>
+                      </View>
 
-                  {/* Arrow */}
-                  <Text style={{ fontSize: 16, color: colors.textMuted, marginTop: 1 }}>›</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
+                      {/* Arrow */}
+                      <Text style={{ fontSize: 16, color: colors.textMuted, marginTop: 1 }}>›</Text>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </LinearGradient>
           </View>
         </View>
       </View>
